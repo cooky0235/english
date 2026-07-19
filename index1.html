@@ -293,19 +293,9 @@ const allGroups = [
 
 ];
 </script>
-<script>
 
-const words = [
-  {jp:"決める", en:"decide"},
-  {jp:"訓練する", en:"train"},
-  {jp:"旅行する", en:"travel"},
-  {jp:"去る・離れる", en:"leave"},
-  {jp:"公園", en:"park"},
-  {jp:"注文する", en:"order"},
-  {jp:"失う", en:"lose"},
-  {jp:"動く・引っ越す", en:"move"},
-  {jp:"支払う", en:"pay"}
-];
+    let group = 0;
+let words = allGroups[group];
 
 let current = 0;
 let score = 0;
@@ -314,60 +304,60 @@ let miss = [];
 const jpText = document.getElementById("jp");
 const answer = document.getElementById("answer");
 const result = document.getElementById("result");
+const count = document.getElementById("count");
 
 
-// 問題表示
 function showQuestion(){
 
     if(current >= words.length){
+
         showResult();
         return;
+
     }
 
+
+    count.innerHTML =
+    (current+1)+" / "+words.length;
+
+
     jpText.innerHTML =
-        "問題 " + (current + 1) +
-        " / " + words.length +
-        "<br><br>" +
-        words[current].jp;
+    words[current].jp;
+
 
     answer.value="";
+
     result.innerHTML="";
 
 }
 
 
-// 答え確認
-function checkAnswer(){
+function check(){
 
     let input =
-        answer.value.trim().toLowerCase();
-
-    let correct =
-        words[current].en;
+    answer.value.trim().toLowerCase();
 
 
-    if(input === correct){
+    if(input === words[current].en){
 
         score++;
 
         result.innerHTML =
-          "<span class='ok'>〇 正解</span>";
+        "〇 正解";
 
     }else{
 
         miss.push(words[current]);
 
         result.innerHTML =
-          "<span class='ng'>× 不正解<br>正解：" 
-          + correct +
-          "</span>";
+        "× 正解："+words[current].en;
+
     }
 
 }
 
 
-// 次へ
-function nextQuestion(){
+function next(){
 
     current++;
 
@@ -376,50 +366,36 @@ function nextQuestion(){
 }
 
 
-// 結果表示
+function changeGroup(){
+
+    group =
+    document.getElementById("groupSelect").value;
+
+
+    words =
+    allGroups[group];
+
+
+    current=0;
+    score=0;
+    miss=[];
+
+
+    answer.style.display="block";
+
+
+    showQuestion();
+
+}
+
+
 function showResult(){
 
-    jpText.innerHTML =
-      "テスト終了";
-
-    answer.style.display="none";
-
-    document.getElementById("buttons")
-      .style.display="none";
+    jpText.innerHTML="終了";
 
 
-    let html =
-      "<h2>結果</h2>" +
-      score +
-      " / " +
-      words.length +
-      " 点";
-
-
-    if(miss.length > 0){
-
-        html +=
-        "<h3>間違えた単語</h3>";
-
-        miss.forEach(function(w){
-
-            html +=
-            w.jp +
-            " → " +
-            w.en +
-            "<br>";
-
-        });
-
-    }else{
-
-        html +=
-        "<br><br>全問正解！";
-
-    }
-
-
-    result.innerHTML = html;
+    result.innerHTML =
+    score+" / "+words.length+" 点";
 
 }
 
