@@ -135,7 +135,7 @@ button{
 
 <div class="count" id="count"></div>
 <div id="timer" style="color:#666;margin-top:5px;">
-用时：00:00
+時間：00:00
 </div>
 <div class="jp" id="jp"></div>
 
@@ -334,7 +334,8 @@ let answered=false;
 // 计时
 let startTime = 0;
 let timerInterval = null;
-
+let isTimeout = false;
+    
 // ランダム並び替え
 function shuffle(array){
 
@@ -586,11 +587,21 @@ function updateTimer(){
 
 
     document.getElementById("timer").innerHTML =
-    "用时：" +
+    "時間：" +
     String(min).padStart(2,"0") +
     ":" +
     String(sec).padStart(2,"0");
+    
+  // 3分超過で終了
+    if(seconds >= 180){
 
+        clearInterval(timerInterval);
+
+        isTimeout = true;
+
+        finish();
+
+    }
 }
 
 // 終了画面
@@ -617,13 +628,18 @@ String(sec).padStart(2,"0");
     let html=
 
     "<h1>🎉 テスト終了</h1>"+
-
+(timeout
+?
+"<h2>⏰ 制限時間を超えました</h2>"
+:
+""
+)+
     "<h2>"+score+
     " / "+
     testWords.length+
     " 問 正解</h2>"+
 
-"<h3>⏱ 用时："+timeText+"</h3>";
+"<h3>⏱ 時間："+timeText+"</h3>";
 
 
 
