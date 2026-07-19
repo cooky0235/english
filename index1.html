@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>英単語テスト V4</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f5f5f5;
+    margin:0;
+    padding:15px;
+}
+
+.container{
+    max-width:450px;
+    margin:auto;
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+    text-align:center;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+h1{
+    font-size:22px;
+    margin:0;
+}
+
+select{
+    padding:8px;
+    border-radius:8px;
+    font-size:16px;
+}
+
+.count{
+    color:#666;
+    margin-top:15px;
+}
+
+.jp{
+    font-size:30px;
+    margin:35px 0;
+    font-weight:bold;
+    min-height:80px;
+}
+
+input{
+    width:90%;
+    padding:12px;
+    font-size:22px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    text-align:center;
+}
+
+.button-area{
+    display:flex;
+    margin-top:15px;
+}
+
+button{
+    flex:1;
+    margin:5px;
+    padding:14px;
+    font-size:18px;
+    border:none;
+    border-radius:8px;
+    background:#07c160;
+    color:white;
+}
+
+.result{
+    margin-top:20px;
+    font-size:18px;
+    min-height:30px;
+}
+
+.wrong{
+    text-align:left;
+    margin-top:20px;
+}
+
+.retry-btn{
+    width:100%;
+    margin-top:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<h1>📚 英単語テスト</h1>
+
+<select id="groupSelect" onchange="changeGroup()">
+
+<option value="0">1～10</option>
+<option value="1">11～20</option>
+<option value="2">21～30</option>
+<option value="3">31～40</option>
+<option value="4">41～50</option>
+<option value="5">51～60</option>
+<option value="6">61～70</option>
+<option value="7">71～80</option>
+<option value="8">81～90</option>
+<option value="9">91～100</option>
+
+</select>
+
+</div>
+
+<div class="count" id="count"></div>
+
+<div class="jp" id="jp"></div>
+
+<input
+id="answer"
+placeholder="英単語を入力してください"
+onkeydown="if(event.key==='Enter'){check();}">
+
+<div class="button-area">
+<button onclick="check()">OK</button>
+<button onclick="next()">次へ</button>
+</div>
+
+<div class="result" id="result"></div>
+
+</div>
+
+<script>
+
+//======================
+// 単語データ（10グループ×10単語）
+//======================
+
+const allGroups = [
+
+/* 1～10 */
+[
+{jp:"～させる",en:"let"},
+{jp:"決心する",en:"decide"},
+{jp:"訓練する",en:"train"},
+{jp:"旅行する",en:"travel"},
+{jp:"置き忘れる",en:"leave"},
+{jp:"駐車する",en:"park"},
+{jp:"注文する",en:"order"},
+{jp:"失う",en:"lose"},
+{jp:"動かす",en:"move"},
+{jp:"支払う",en:"pay"}
+],
+
+/*11～20*/
+[
+{jp:"待つ",en:"wait"},
+{jp:"変える",en:"change"},
+{jp:"確かめる",en:"check"},
+{jp:"建てる",en:"build"},
+{jp:"心配する",en:"worry"},
+{jp:"植える",en:"plant"},
+{jp:"練習する",en:"practice"},
+{jp:"気にかける",en:"care"},
+{jp:"描写する",en:"describe"},
+{jp:"費用がかかる",en:"cost"}
+],
+
+/*21～30*/
+[
+{jp:"曲げる",en:"turn"},
+{jp:"に加わる",en:"join"},
+{jp:"成長する",en:"grow"},
+{jp:"救う",en:"save"},
+{jp:"勝つ",en:"win"},
+{jp:"選ぶ",en:"pick"},
+{jp:"信じる",en:"believe"},
+{jp:"報告する",en:"report"},
+{jp:"忘れる",en:"forget"},
+{jp:"傷つける",en:"hurt"}
+],
+
+/*31～40*/
+[
+{jp:"借りる",en:"borrow"},
+{jp:"驚かせる",en:"surprise"},
+{jp:"ボランティアをする",en:"volunteer"},
+{jp:"運ぶ",en:"carry"},
+{jp:"置く",en:"set"},
+{jp:"招待する",en:"invite"},
+{jp:"偶然起こる",en:"happen"},
+{jp:"選ぶ",en:"choose"},
+{jp:"案内する",en:"guide"},
+{jp:"到着する",en:"arrive"}
+],
+
+/*41～50*/
+[
+{jp:"提供する",en:"offer"},
+{jp:"覚えている",en:"remember"},
+{jp:"中止する",en:"cancel"},
+{jp:"修理する",en:"repair"},
+{jp:"言い訳",en:"excuse"},
+{jp:"インターネット",en:"internet"},
+{jp:"考え",en:"idea"},
+{jp:"情報",en:"information"},
+{jp:"あなた",en:"honey"},
+{jp:"火",en:"fire"}
+],
+
+/*51～60*/
+[
+{jp:"野菜",en:"vegetable"},
+{jp:"状況",en:"situation"},
+{jp:"一節",en:"passage"},
+{jp:"出来事",en:"event"},
+{jp:"奥様",en:"ma'am"},
+{jp:"アボカド",en:"avocado"},
+{jp:"型",en:"type"},
+{jp:"パン屋",en:"bakery"},
+{jp:"将来",en:"future"},
+{jp:"運動",en:"exercise"}
+],
+
+/*61～70*/
+[
+{jp:"ビン",en:"bottle"},
+{jp:"合図",en:"sign"},
+{jp:"サービス",en:"service"},
+{jp:"生ゴミ",en:"garbage"},
+{jp:"顧客",en:"customer"},
+{jp:"職業",en:"business"},
+{jp:"トラブル",en:"trouble"},
+{jp:"周遊旅行",en:"tour"},
+{jp:"競走",en:"race"},
+{jp:"環境",en:"environment"}
+],
+
+/*71～80*/
+[
+{jp:"活動",en:"activity"},
+{jp:"他の",en:"other"},
+{jp:"違った",en:"different"},
+{jp:"重要な",en:"important"},
+{jp:"特別な",en:"special"},
+{jp:"十分な",en:"enough"},
+{jp:"高価な",en:"expensive"},
+{jp:"困難な",en:"difficult"},
+{jp:"ほとんど～ない",en:"few"},
+{jp:"別の",en:"another"}
+],
+
+/*81～90*/
+[
+{jp:"接近した",en:"close"},
+{jp:"自分自身の",en:"own"},
+{jp:"地元の",en:"local"},
+{jp:"おいしい",en:"delicious"},
+{jp:"外国の",en:"foreign"},
+{jp:"しかしながら",en:"however"},
+{jp:"～でさえ",en:"even"},
+{jp:"オンラインで",en:"online"},
+{jp:"屋外に",en:"outside"},
+{jp:"その代わりに",en:"instead"}
+],
+
+/*91～100*/
+[
+{jp:"遠くに",en:"far"},
+{jp:"たぶん",en:"probably"},
+{jp:"でも",en:"though"},
+{jp:"実際に",en:"actually"},
+{jp:"あとで",en:"later"},
+{jp:"もう・まだ",en:"yet"},
+{jp:"すぐに",en:"quickly"},
+{jp:"屋内に",en:"inside"},
+{jp:"とにかく",en:"anyway"},
+{jp:"～している間に",en:"while"}
+]
+
+];
+
+<script>
+
+const words = [
+  {jp:"決める", en:"decide"},
+  {jp:"訓練する", en:"train"},
+  {jp:"旅行する", en:"travel"},
+  {jp:"去る・離れる", en:"leave"},
+  {jp:"公園", en:"park"},
+  {jp:"注文する", en:"order"},
+  {jp:"失う", en:"lose"},
+  {jp:"動く・引っ越す", en:"move"},
+  {jp:"支払う", en:"pay"}
+];
+
+let current = 0;
+let score = 0;
+let miss = [];
+
+const jpText = document.getElementById("jp");
+const answer = document.getElementById("answer");
+const result = document.getElementById("result");
+
+
+// 問題表示
+function showQuestion(){
+
+    if(current >= words.length){
+        showResult();
+        return;
+    }
+
+    jpText.innerHTML =
+        "問題 " + (current + 1) +
+        " / " + words.length +
+        "<br><br>" +
+        words[current].jp;
+
+    answer.value="";
+    result.innerHTML="";
+
+}
+
+
+// 答え確認
+function checkAnswer(){
+
+    let input =
+        answer.value.trim().toLowerCase();
+
+    let correct =
+        words[current].en;
+
+
+    if(input === correct){
+
+        score++;
+
+        result.innerHTML =
+          "<span class='ok'>〇 正解</span>";
+
+    }else{
+
+        miss.push(words[current]);
+
+        result.innerHTML =
+          "<span class='ng'>× 不正解<br>正解：" 
+          + correct +
+          "</span>";
+    }
+
+}
+
+
+// 次へ
+function nextQuestion(){
+
+    current++;
+
+    showQuestion();
+
+}
+
+
+// 結果表示
+function showResult(){
+
+    jpText.innerHTML =
+      "テスト終了";
+
+    answer.style.display="none";
+
+    document.getElementById("buttons")
+      .style.display="none";
+
+
+    let html =
+      "<h2>結果</h2>" +
+      score +
+      " / " +
+      words.length +
+      " 点";
+
+
+    if(miss.length > 0){
+
+        html +=
+        "<h3>間違えた単語</h3>";
+
+        miss.forEach(function(w){
+
+            html +=
+            w.jp +
+            " → " +
+            w.en +
+            "<br>";
+
+        });
+
+    }else{
+
+        html +=
+        "<br><br>全問正解！";
+
+    }
+
+
+    result.innerHTML = html;
+
+}
+
+
+// 初期表示
+showQuestion();
+
+
+</script>
+<script>
+
+// Enterキーで回答チェック
+answer.addEventListener("keydown", function(e){
+
+    if(e.key === "Enter"){
+
+        checkAnswer();
+
+    }
+
+});
+
+
+// 再挑戦
+function retry(){
+
+    current = 0;
+    score = 0;
+    miss = [];
+
+    answer.style.display="block";
+
+    document.getElementById("buttons")
+      .style.display="flex";
+
+
+    showQuestion();
+
+}
+
+
+</script>
+
+
+</body>
+</html>
