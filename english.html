@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日单词测试</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background:#f5f5f5;
+  margin:0;
+  padding:20px;
+}
+
+.container {
+  max-width:400px;
+  margin:auto;
+  background:white;
+  padding:25px;
+  border-radius:15px;
+  text-align:center;
+}
+
+h1 {
+  font-size:22px;
+}
+
+.jp {
+  font-size:28px;
+  margin:30px 0;
+  font-weight:bold;
+}
+
+input {
+  width:90%;
+  font-size:22px;
+  padding:12px;
+  border:1px solid #ccc;
+  border-radius:8px;
+  text-align:center;
+}
+
+button {
+  width:95%;
+  margin-top:15px;
+  padding:14px;
+  font-size:18px;
+  border:none;
+  border-radius:8px;
+  background:#07c160;
+  color:white;
+}
+
+.result {
+  margin-top:20px;
+  font-size:18px;
+}
+
+.count {
+  color:#666;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>📚 每日单词测试</h1>
+
+<div class="count" id="count"></div>
+
+<div class="jp" id="jp"></div>
+
+<input id="answer" placeholder="英文输入">
+
+<button onclick="check()">确认</button>
+
+<div class="result" id="result"></div>
+
+<button onclick="next()">下一题</button>
+
+</div>
+
+
+<script>
+
+const words = [
+  {jp:"決める", en:"decide"},
+  {jp:"訓練する", en:"train"},
+  {jp:"旅行する", en:"travel"},
+  {jp:"去る・離れる", en:"leave"},
+  {jp:"公園", en:"park"},
+  {jp:"注文する", en:"order"},
+  {jp:"失う", en:"lose"},
+  {jp:"動く", en:"move"},
+  {jp:"支払う", en:"pay"}
+];
+
+
+let index=0;
+let score=0;
+
+
+function show(){
+
+ document.getElementById("count").innerHTML =
+ "第 "+(index+1)+" / "+words.length+" 問";
+
+ document.getElementById("jp").innerHTML =
+ words[index].jp;
+
+ document.getElementById("answer").value="";
+ document.getElementById("result").innerHTML="";
+
+}
+
+
+function check(){
+
+ let input=document
+ .getElementById("answer")
+ .value
+ .trim()
+ .toLowerCase();
+
+
+ if(input==words[index].en){
+
+   score++;
+   document.getElementById("result")
+   .innerHTML="⭕ 正解";
+
+ }else{
+
+   document.getElementById("result")
+   .innerHTML=
+   "❌ 正解："+words[index].en;
+
+ }
+
+}
+
+
+function next(){
+
+ index++;
+
+ if(index>=words.length){
+
+   document.querySelector(".container").innerHTML=
+   "<h1>🎉 完成</h1>"+
+   "<h2>"+score+" / "+words.length+" 正解</h2>";
+
+   return;
+ }
+
+ show();
+
+}
+
+
+show();
+
+</script>
+
+</body>
+</html>
