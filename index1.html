@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>英単語テスト V4</title>
+<title>英単語テスト</title>
 
 <style>
 
@@ -13,18 +13,19 @@ body{
     font-family:Arial,sans-serif;
     background:#f5f5f5;
     margin:0;
-    padding:15px;
+    padding:20px;
 }
+
 
 .container{
     max-width:450px;
     margin:auto;
     background:white;
-    padding:20px;
+    padding:25px;
     border-radius:15px;
-    box-shadow:0 2px 10px rgba(0,0,0,0.1);
     text-align:center;
 }
+
 
 .header{
     display:flex;
@@ -32,28 +33,31 @@ body{
     align-items:center;
 }
 
+
 h1{
     font-size:22px;
-    margin:0;
 }
+
 
 select{
     padding:8px;
-    border-radius:8px;
     font-size:16px;
+    border-radius:8px;
 }
+
 
 .count{
     color:#666;
-    margin-top:15px;
+    margin-top:10px;
 }
+
 
 .jp{
     font-size:30px;
-    margin:35px 0;
+    margin:30px 0;
     font-weight:bold;
-    min-height:80px;
 }
+
 
 input{
     width:90%;
@@ -64,10 +68,12 @@ input{
     text-align:center;
 }
 
+
 .button-area{
     display:flex;
     margin-top:15px;
 }
+
 
 button{
     flex:1;
@@ -80,33 +86,33 @@ button{
     color:white;
 }
 
+
 .result{
     margin-top:20px;
     font-size:18px;
-    min-height:30px;
 }
+
 
 .wrong{
     text-align:left;
     margin-top:20px;
 }
 
-.retry-btn{
-    width:100%;
-    margin-top:10px;
-}
-
 </style>
 
 </head>
 
+
 <body>
 
+
 <div class="container">
+
 
 <div class="header">
 
 <h1>📚 英単語テスト</h1>
+
 
 <select id="groupSelect" onchange="changeGroup()">
 
@@ -123,31 +129,44 @@ button{
 
 </select>
 
+
 </div>
+
 
 <div class="count" id="count"></div>
 
 <div class="jp" id="jp"></div>
 
-<input
+
+<input 
 id="answer"
 placeholder="英単語を入力してください"
 onkeydown="if(event.key==='Enter'){check();}">
 
+
 <div class="button-area">
+
 <button onclick="check()">OK</button>
+
 <button onclick="next()">次へ</button>
+
 </div>
+
 
 <div class="result" id="result"></div>
 
+
 </div>
+
+
 
 <script>
 
-//======================
-// 単語データ（10グループ×10単語）
-//======================
+
+// =====================
+// 英単語データ
+// =====================
+
 
 const allGroups = [
 
@@ -291,142 +310,426 @@ const allGroups = [
 {jp:"～している間に",en:"while"}
 ]
 
+
 ];
+// =====================
+// テスト処理
+// =====================
 
 
-    let group = 0;
-let words = allGroups[group];
+let testWords=[];
 
-let current = 0;
-let score = 0;
-let miss = [];
+let index=0;
 
-const jpText = document.getElementById("jp");
-const answer = document.getElementById("answer");
-const result = document.getElementById("result");
-const count = document.getElementById("count");
+let score=0;
+
+let wrongWords=[];
+
+let currentGroup=0;
+
+let answered=false;
 
 
-function showQuestion(){
 
-    if(current >= words.length){
+// ランダム並び替え
+function shuffle(array){
 
-        showResult();
-        return;
+    for(let i=array.length-1;i>0;i--){
+
+        let j=Math.floor(Math.random()*(i+1));
+
+        [array[i],array[j]]=[array[j],array[i]];
 
     }
 
-
-    count.innerHTML =
-    (current+1)+" / "+words.length;
-
-
-    jpText.innerHTML =
-    words[current].jp;
-
-
-    answer.value="";
-
-    result.innerHTML="";
+    return array;
 
 }
 
 
-function check(){
 
-    if(current >= words.length){
-        return;
+// グループ変更
+function changeGroup(){
+
+    currentGroup=
+    Number(document.getElementById("groupSelect").value);
+  // 保存当前选择
+    localStorage.setItem(
+        "lastGroup",
+        currentGroup
+    );
+
+    startTest();
+
+}
+
+
+
+// テスト開始
+function startTest(){
+
+
+    testWords=
+    shuffle([...allGroups[currentGroup]]);
+
+
+    index=0;
+
+    score=0;
+
+    wrongWords=[];
+
+
+    show();
+
+}
+
+
+
+// 問題表示
+function show(){
+
+
+    answered=false;
+
+
+    document.getElementById("count").innerHTML=
+
+    "第 "+(index+1)+" 問 / 全 "+testWords.length+" 問";
+
+
+
+    document.getElementById("jp").innerHTML=
+
+    testWords[index].jp;
+
+  let answerBox = document.getElementById("answer");
+
+
+    answerBox.disabled=false;
+
+    answerBox.value="";
+
+
+    document.getElementById("result").innerHTML="";
+
+
+    // 自动进入输入框
+    answerBox.focus();
+
+}
+
+
+
+
+// 間違い追加
+function addWrong(){
+
+
+    let exists =
+    wrongWords.some(function(word){
+
+        return word.en==testWords[index].en;
+
+    });
+
+
+
+    if(!exists){
+
+        wrongWords.push(testWords[index]);
+
     }
 
-    let input =
-    answer.value.trim().toLowerCase();
+
+}
 
 
-    if(input === words[current].en){
+
+
+// OKボタン
+function check(){
+
+
+    let answerBox=
+    document.getElementById("answer");
+
+
+
+    if(answered){
+
+        return;
+
+    }
+
+
+
+    let input=
+    answerBox.value
+    .trim()
+    .toLowerCase();
+
+
+
+    answered=true;
+
+    answerBox.disabled=true;
+
+let delay;
+
+    if(input==testWords[index].en){
+
 
         score++;
 
-        result.innerHTML =
-        "〇 正解";
+
+        document.getElementById("result").innerHTML=
+
+        "⭕ 正解です！";
+ delay = 1000;
 
     }else{
 
-        miss.push(words[current]);
 
-        result.innerHTML =
-        "× 正解："+words[current].en;
+        addWrong();
+
+
+        document.getElementById("result").innerHTML=
+
+        "❌ 不正解　正解："+testWords[index].en;
+
+ delay = 2000;
+    }
+
+
+
+  setTimeout(function(){
+
+    moveNext();
+
+    document.getElementById("answer").focus();
+
+},delay);
+}
+
+
+
+
+// 次へボタン
+function next(){
+
+
+
+    // 未回答なら間違い扱い
+    if(!answered){
+
+
+        addWrong();
+
 
     }
 
-}
 
 
-function next(){
+    moveNext();
 
-    current++;
-
-    showQuestion();
 
 }
 
 
-function changeGroup(){
-
-    group =
-    document.getElementById("groupSelect").value;
 
 
-    words =
-    allGroups[group];
+// 次の問題へ
+function moveNext(){
 
 
-    current=0;
+    index++;
+
+
+
+    if(index>=testWords.length){
+
+
+        finish();
+
+        return;
+
+    }
+
+
+
+    show();
+
+
+}
+
+
+
+// 終了画面
+function finish(){
+
+
+    let html=
+
+    "<h1>🎉 テスト終了</h1>"+
+
+    "<h2>"+score+
+    " / "+
+    testWords.length+
+    " 問 正解</h2>";
+
+
+
+
+    if(wrongWords.length>0){
+
+
+
+        html+=
+
+        "<div class='wrong'>"+
+
+        "<h3>❌ 間違えた単語</h3>";
+
+
+
+        wrongWords.forEach(function(word){
+
+
+            html+=
+
+            "<p>"+
+            word.jp+
+            " → "+
+            word.en+
+            "</p>";
+
+
+        });
+
+
+
+        html+="</div>";
+
+
+
+        html+=
+
+        "<button class='retry-btn' onclick='retryWrong()'>"+
+        "もう一度間違えた単語だけテストする"+
+        "</button>";
+
+
+
+    }else{
+
+
+        html+=
+
+        "<h3>🎊 全問正解です！</h3>";
+
+
+    }
+
+html +=
+"<br><br>" +
+"<button class='retry-btn' onclick='goHome()'>ホームへ戻る</button>";
+
+document.querySelector(".container").innerHTML = html;
+
+
+}
+
+
+
+
+// 間違えた単語だけ再テスト
+function retryWrong(){
+
+
+
+    testWords=
+    shuffle([...wrongWords]);
+
+
+
+    index=0;
+
     score=0;
-    miss=[];
+
+    wrongWords=[];
 
 
-    answer.style.display="block";
+    document.querySelector(".container").innerHTML=
 
 
-    showQuestion();
+    "<div class='header'>"+
+    "<h1>📚 間違えた単語テスト</h1>"+
+    "</div>"+
+
+
+    "<div class='count' id='count'></div>"+
+
+
+    "<div class='jp' id='jp'></div>"+
+
+
+    "<input id='answer' "+
+    "placeholder='英単語を入力してください' "+
+    "onkeydown=\"if(event.key==='Enter'){check();}\">"+
+
+
+
+    "<div class='button-area'>"+
+
+    "<button onclick='check()'>OK</button>"+
+
+    "<button onclick='next()'>次へ</button>"+
+
+    "</div>"+
+
+
+
+    "<div class='result' id='result'></div>";
+
+
+
+    show();
+
+
+}
+
+// ホームへ戻る
+function goHome(){
+
+    location.reload();
 
 }
 
 
-function showResult(){
-
-    jpText.innerHTML="終了";
-
-
-    result.innerHTML =
-    score+" / "+words.length+" 点";
-
-}
+// 開始
+let savedGroup = localStorage.getItem("lastGroup");
 
 
-// 初期表示
-showQuestion();
+if(savedGroup !== null){
 
-// 再挑戦
-function retry(){
+    currentGroup = Number(savedGroup);
 
-    current = 0;
-    score = 0;
-    miss = [];
-
-    answer.style.display="block";
-
-    document.getElementById("buttons")
-      .style.display="flex";
-
-
-    showQuestion();
+    document.getElementById("groupSelect").value = currentGroup;
 
 }
 
 
+startTest();
+
+
+setTimeout(function(){
+
+    document.getElementById("answer").focus();
+
+},100);
 </script>
 
-
 </body>
+
 </html>
