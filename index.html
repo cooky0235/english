@@ -398,22 +398,19 @@ function show(){
 
     testWords[index].jp;
 
+  let answerBox = document.getElementById("answer");
 
 
-    document.getElementById("answer").value="";
+    answerBox.disabled=false;
 
-
-    document.getElementById("answer").disabled=false;
+    answerBox.value="";
 
 
     document.getElementById("result").innerHTML="";
 
- // ★ 自動で入力欄にカーソル
-    setTimeout(function(){
 
-        answerBox.focus();
-
-    },100);
+    // 自动进入输入框
+    answerBox.focus();
 
 }
 
@@ -501,14 +498,13 @@ function check(){
 
 
 
-    setTimeout(function(){
+  setTimeout(function(){
 
-        moveNext();
+    moveNext();
 
-    },2000);
+    document.getElementById("answer").focus();
 
-
-
+},2000);
 }
 
 
