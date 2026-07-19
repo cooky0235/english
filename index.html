@@ -475,7 +475,7 @@ function check(){
 
     answerBox.disabled=true;
 
-
+let delay;
 
     if(input==testWords[index].en){
 
@@ -486,7 +486,7 @@ function check(){
         document.getElementById("result").innerHTML=
 
         "⭕ 正解です！";
-
+ delay = 1000;
 
     }else{
 
@@ -498,7 +498,7 @@ function check(){
 
         "❌ 不正解　正解："+testWords[index].en;
 
-
+ delay = 2000;
     }
 
 
@@ -509,7 +509,7 @@ function check(){
 
     document.getElementById("answer").focus();
 
-},2000);
+},delay);
 }
 
 
