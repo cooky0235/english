@@ -6,6 +6,7 @@
 <title>英検準2級 英単語テスト</title>
 
 <style>
+
 body {
   font-family: Arial, sans-serif;
   background:#f5f5f5;
@@ -41,9 +42,8 @@ input {
   text-align:center;
 }
 
+
 button {
-  width:95%;
-  margin-top:15px;
   padding:14px;
   font-size:18px;
   border:none;
@@ -52,40 +52,70 @@ button {
   color:white;
 }
 
+
+.buttons {
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+}
+
+
+.buttons button {
+  width:50%;
+}
+
+
 .result {
   margin-top:20px;
   font-size:18px;
 }
 
+
 .count {
   color:#666;
 }
+
 </style>
 
 </head>
 
+
 <body>
+
 
 <div class="container">
 
+
 <h1>📚 英検準2級 英単語テスト</h1>
+
 
 <div class="count" id="count"></div>
 
+
 <div class="jp" id="jp"></div>
+
 
 <input id="answer" placeholder="英単語を入力">
 
+
+<div class="buttons">
+
 <button onclick="check()">OK</button>
 
-<div class="result" id="result"></div>
-
-<button onclick="next()">次の問題</button>
+<button onclick="next()">次へ</button>
 
 </div>
 
 
+<div class="result" id="result"></div>
+
+
+</div>
+
+
+
 <script>
+
 
 let words = [
 
@@ -113,15 +143,20 @@ let words = [
 ];
 
 
-// ランダム出題
+
+// ランダム順
 words.sort(() => Math.random() - 0.5);
 
 
+
 let index=0;
+
 let score=0;
 
 
+
 function show(){
+
 
 document.getElementById("count").innerHTML =
 "第 "+(index+1)+" 問 / 全 "+words.length+" 問";
@@ -133,15 +168,19 @@ words[index].jp;
 
 document.getElementById("answer").value="";
 
+
 document.getElementById("result").innerHTML="";
 
 
 document.getElementById("answer").focus();
 
+
 }
 
 
+
 function check(){
+
 
 let input =
 document.getElementById("answer")
@@ -150,9 +189,12 @@ document.getElementById("answer")
 .toLowerCase();
 
 
+
 if(input == words[index].en){
 
+
 score++;
+
 
 document.getElementById("result")
 .innerHTML="⭕ 正解です！";
@@ -168,11 +210,13 @@ document.getElementById("result")
 
 }
 
+
 }
 
 
 
 function next(){
+
 
 index++;
 
@@ -180,7 +224,7 @@ index++;
 if(index >= words.length){
 
 
-document.querySelector(".container").innerHTML=
+document.querySelector(".container").innerHTML =
 
 "<h1>🎉 テスト終了</h1>"+
 "<h2>"+score+" / "+words.length+" 問 正解</h2>";
@@ -193,13 +237,17 @@ return;
 
 show();
 
+
 }
+
 
 
 show();
 
 
+
 </script>
+
 
 </body>
 </html>
