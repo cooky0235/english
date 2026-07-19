@@ -334,6 +334,10 @@ function showQuestion(){
 
 function check(){
 
+    if(current >= words.length){
+        return;
+    }
+
     let input =
     answer.value.trim().toLowerCase();
 
@@ -402,22 +406,6 @@ function showResult(){
 
 // 初期表示
 showQuestion();
-
-
-</script>
-<script>
-
-// Enterキーで回答チェック
-answer.addEventListener("keydown", function(e){
-
-    if(e.key === "Enter"){
-
-        checkAnswer();
-
-    }
-
-});
-
 
 // 再挑戦
 function retry(){
