@@ -515,7 +515,9 @@ let delay;
 
 
   setTimeout(function(){
-
+if(isTimeout){
+        return;
+    }
     moveNext();
 
     document.getElementById("answer").focus();
@@ -600,7 +602,7 @@ function updateTimer(){
         isTimeout = true;
 
         finish();
-
+ return;
     }
 }
 
