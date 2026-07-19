@@ -520,7 +520,9 @@ if(isTimeout){
     }
     moveNext();
 
-    document.getElementById("answer").focus();
+   if(document.getElementById("answer")){
+        document.getElementById("answer").focus();
+    }
 
 },delay);
 }
@@ -720,7 +722,9 @@ function retryWrong(){
     score=0;
 
     wrongWords=[];
+ answered = false;
 
+    isTimeout = false;
 
     document.querySelector(".container").innerHTML=
 
@@ -755,7 +759,8 @@ function retryWrong(){
     "<div class='result' id='result'></div>";
 
 
-
+answered = false;
+isTimeout = false;
     show();
 
 
