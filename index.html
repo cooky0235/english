@@ -353,6 +353,11 @@ function changeGroup(){
 
     currentGroup=
     Number(document.getElementById("groupSelect").value);
+  // 保存当前选择
+    localStorage.setItem(
+        "lastGroup",
+        currentGroup
+    );
 
     startTest();
 
@@ -699,19 +704,29 @@ function goHome(){
 
     location.reload();
 
-    setTimeout(function(){
-
-        document.getElementById("groupSelect").value = currentGroup;
-
-    },100);
-
 }
 
 
 // 開始
+let savedGroup = localStorage.getItem("lastGroup");
+
+
+if(savedGroup !== null){
+
+    currentGroup = Number(savedGroup);
+
+    document.getElementById("groupSelect").value = currentGroup;
+
+}
+
+
 startTest();
-    setTimeout(function(){
+
+
+setTimeout(function(){
+
     document.getElementById("answer").focus();
+
 },100);
 </script>
 
