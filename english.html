@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>每日单词测试</title>
+<title>毎日の英単語テスト</title>
 
 <style>
 body {
@@ -68,19 +68,19 @@ button {
 
 <div class="container">
 
-<h1>📚 每日单词测试</h1>
+<h1>📚 毎日の英単語テスト</h1>
 
 <div class="count" id="count"></div>
 
 <div class="jp" id="jp"></div>
 
-<input id="answer" placeholder="英文输入">
+<input id="answer" placeholder="英単語を入力してください">
 
-<button onclick="check()">确认</button>
+<button onclick="check()">答え合わせ</button>
 
 <div class="result" id="result"></div>
 
-<button onclick="next()">下一题</button>
+<button onclick="next()">次の問題</button>
 
 </div>
 
@@ -107,7 +107,7 @@ let score=0;
 function show(){
 
  document.getElementById("count").innerHTML =
- "第 "+(index+1)+" / "+words.length+" 問";
+ "第 "+(index+1)+" 問 / 全 "+words.length+" 問";
 
  document.getElementById("jp").innerHTML =
  words[index].jp;
@@ -130,14 +130,15 @@ function check(){
  if(input==words[index].en){
 
    score++;
+
    document.getElementById("result")
-   .innerHTML="⭕ 正解";
+   .innerHTML="⭕ 正解です！";
 
  }else{
 
    document.getElementById("result")
    .innerHTML=
-   "❌ 正解："+words[index].en;
+   "❌ 不正解　正解：" + words[index].en;
 
  }
 
@@ -151,8 +152,8 @@ function next(){
  if(index>=words.length){
 
    document.querySelector(".container").innerHTML=
-   "<h1>🎉 完成</h1>"+
-   "<h2>"+score+" / "+words.length+" 正解</h2>";
+   "<h1>🎉 テスト終了</h1>"+
+   "<h2>"+score+" / "+words.length+" 問 正解</h2>";
 
    return;
  }
