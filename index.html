@@ -695,12 +695,13 @@ function retryWrong(){
 // ホームへ戻る
 function goHome(){
 
-    // 下拉框回到当前组（也可以改成0表示默认1～20）
-    document.body.innerHTML = originalPage;
+    location.reload();
 
-    document.getElementById("groupSelect").value = currentGroup;
+    setTimeout(function(){
 
-    startTest();
+        document.getElementById("groupSelect").value = currentGroup;
+
+    },100);
 
 }
 
