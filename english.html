@@ -283,14 +283,39 @@ show();
 function next(){
 
 
+//まだ回答していない場合は不正解扱い
+let answerBox = document.getElementById("answer");
+
+
+if(answerBox && !answerBox.disabled){
+
+
+    let exists = wrongWords.some(function(word){
+
+        return word.en == testWords[index].en;
+
+    });
+
+
+    if(!exists){
+
+        wrongWords.push(testWords[index]);
+
+    }
+
+
+}
+
+
+//次の問題へ
 index++;
 
 
-if(index>=testWords.length){
+if(index >= testWords.length){
 
- finish();
+    finish();
 
- return;
+    return;
 
 }
 
