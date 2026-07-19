@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>毎日の英単語テスト</title>
+<title>英単語テスト</title>
 
 <style>
 
@@ -16,7 +16,6 @@ body {
   padding:20px;
 }
 
-
 .container {
   max-width:400px;
   margin:auto;
@@ -26,18 +25,15 @@ body {
   text-align:center;
 }
 
-
 h1 {
   font-size:22px;
 }
-
 
 .jp {
   font-size:28px;
   margin:30px 0;
   font-weight:bold;
 }
-
 
 input {
   width:90%;
@@ -48,13 +44,11 @@ input {
   text-align:center;
 }
 
-
 .button-area {
   display:flex;
   justify-content:center;
   margin-top:15px;
 }
-
 
 button {
   flex:1;
@@ -67,23 +61,19 @@ button {
   color:white;
 }
 
-
 .result {
   margin-top:20px;
   font-size:18px;
 }
 
-
 .count {
   color:#666;
 }
-
 
 .wrong {
   text-align:left;
   margin-top:20px;
 }
-
 
 </style>
 
@@ -97,15 +87,13 @@ button {
 
 <h1>📚 毎日の英単語テスト</h1>
 
-
 <div class="count" id="count"></div>
-
 
 <div class="jp" id="jp"></div>
 
 
 <input 
-id="answer" 
+id="answer"
 placeholder="英単語を入力してください"
 onkeydown="if(event.key==='Enter'){check();}">
 
@@ -129,24 +117,41 @@ onkeydown="if(event.key==='Enter'){check();}">
 <script>
 
 
-//毎日ここだけ変更
+// ★毎日ここだけ変更
 const words = [
 
-  {jp:"決める", en:"decide"},
-  {jp:"訓練する", en:"train"},
-  {jp:"旅行する", en:"travel"},
-  {jp:"去る・離れる", en:"leave"},
-  {jp:"公園", en:"park"},
-  {jp:"注文する", en:"order"},
-  {jp:"失う", en:"lose"},
-  {jp:"動く", en:"move"},
-  {jp:"支払う", en:"pay"}
+ {jp:"決める", en:"decide"},
+ {jp:"訓練する", en:"train"},
+ {jp:"旅行する", en:"travel"},
+ {jp:"去る・離れる", en:"leave"},
+ {jp:"公園", en:"park"},
+ {jp:"注文する", en:"order"},
+ {jp:"失う", en:"lose"},
+ {jp:"動く", en:"move"},
+ {jp:"支払う", en:"pay"}
 
 ];
 
 
 
-let testWords = [...words];
+//ランダム並び替え
+function shuffle(array){
+
+ for(let i=array.length-1;i>0;i--){
+
+   let j=Math.floor(Math.random()*(i+1));
+
+   [array[i],array[j]]=[array[j],array[i]];
+
+ }
+
+ return array;
+
+}
+
+
+
+let testWords = shuffle([...words]);
 
 let index = 0;
 
@@ -156,7 +161,8 @@ let wrongWords = [];
 
 
 
-//問題表示
+
+//表示
 function show(){
 
 
@@ -172,6 +178,8 @@ testWords[index].jp;
 
 document.getElementById("answer").value="";
 
+document.getElementById("answer").disabled=false;
+
 
 document.getElementById("result").innerHTML="";
 
@@ -180,30 +188,38 @@ document.getElementById("result").innerHTML="";
 
 
 
-
-//答え合わせ
+//回答
 function check(){
 
 
-let input = document
+let answerBox=document.getElementById("answer");
 
-.getElementById("answer")
 
-.value
+//連打防止
+if(answerBox.disabled){
 
+ return;
+
+}
+
+
+let input=answerBox.value
 .trim()
-
 .toLowerCase();
 
 
 
-if(input == testWords[index].en){
+answerBox.disabled=true;
+
+
+
+if(input==testWords[index].en){
 
 
 score++;
 
 
-document.getElementById("result").innerHTML =
+document.getElementById("result").innerHTML=
 
 "⭕ 正解です！";
 
@@ -211,19 +227,54 @@ document.getElementById("result").innerHTML =
 }else{
 
 
-wrongWords.push(testWords[index]);
+let exists=wrongWords.some(function(word){
+
+ return word.en==testWords[index].en;
+
+});
 
 
-document.getElementById("result").innerHTML =
+if(!exists){
 
-"❌ 不正解　正解：" + testWords[index].en;
+ wrongWords.push(testWords[index]);
+
+}
+
+
+document.getElementById("result").innerHTML=
+
+"❌ 不正解　正解："+testWords[index].en;
 
 
 }
 
 
+
+//2秒後自動移動
+setTimeout(function(){
+
+
+index++;
+
+
+if(index>=testWords.length){
+
+
+ finish();
+
+
+ return;
+
 }
 
+
+show();
+
+
+},2000);
+
+
+}
 
 
 
@@ -235,13 +286,11 @@ function next(){
 index++;
 
 
-if(index >= testWords.length){
+if(index>=testWords.length){
 
+ finish();
 
-finish();
-
-return;
-
+ return;
 
 }
 
@@ -259,8 +308,7 @@ show();
 function finish(){
 
 
-
-let html =
+let html=
 
 "<h1>🎉 テスト終了</h1>"+
 
@@ -268,13 +316,10 @@ let html =
 
 
 
+if(wrongWords.length>0){
 
 
-if(wrongWords.length > 0){
-
-
-
-html +=
+html+=
 
 "<div class='wrong'>"+
 
@@ -285,7 +330,7 @@ html +=
 wrongWords.forEach(function(word){
 
 
-html +=
+html+=
 
 "<p>"+word.jp+" → "+word.en+"</p>";
 
@@ -293,12 +338,11 @@ html +=
 });
 
 
-
-html += "</div>";
-
+html+="</div>";
 
 
-html +=
+
+html+=
 
 "<button onclick='retryWrong()'>"+
 "もう一度間違えた単語だけテストする"+
@@ -309,9 +353,13 @@ html +=
 }else{
 
 
-html +=
+html+="<h3>🎊 全問正解です！</h3>";
 
-"<h3>🎊 全問正解です！</h3>";
+}
+
+
+
+document.querySelector(".container").innerHTML=html;
 
 
 }
@@ -319,35 +367,21 @@ html +=
 
 
 
-document.querySelector(".container").innerHTML = html;
-
-
-
-}
-
-
-
-
-//間違えた単語だけ再テスト
+//錯題再テスト
 function retryWrong(){
 
 
+testWords=shuffle([...wrongWords]);
 
-testWords = [...wrongWords];
+index=0;
 
+score=0;
 
-index = 0;
-
-
-score = 0;
-
-
-wrongWords = [];
+wrongWords=[];
 
 
 
-document.querySelector(".container").innerHTML =
-
+document.querySelector(".container").innerHTML=
 
 
 "<h1>📚 間違えた単語テスト</h1>"+
@@ -377,7 +411,6 @@ show();
 
 
 }
-
 
 
 
