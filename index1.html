@@ -134,7 +134,9 @@ button{
 
 
 <div class="count" id="count"></div>
-
+<div id="timer" style="color:#666;margin-top:5px;">
+用时：00:00
+</div>
 <div class="jp" id="jp"></div>
 
 
@@ -329,7 +331,9 @@ let currentGroup=0;
 
 let answered=false;
 
-
+// 计时
+let startTime = 0;
+let timerInterval = null;
 
 // ランダム並び替え
 function shuffle(array){
@@ -368,7 +372,13 @@ function changeGroup(){
 // テスト開始
 function startTest(){
 
+  // 开始计时
+    startTime = Date.now();
 
+    clearInterval(timerInterval);
+
+    timerInterval = setInterval(updateTimer,1000);
+    
     testWords=
     shuffle([...allGroups[currentGroup]]);
 
@@ -563,12 +573,47 @@ function moveNext(){
 
 }
 
+function updateTimer(){
 
+    let seconds = Math.floor(
+        (Date.now() - startTime) / 1000
+    );
+
+
+    let min = Math.floor(seconds / 60);
+
+    let sec = seconds % 60;
+
+
+    document.getElementById("timer").innerHTML =
+    "用时：" +
+    String(min).padStart(2,"0") +
+    ":" +
+    String(sec).padStart(2,"0");
+
+}
 
 // 終了画面
 function finish(){
 
+clearInterval(timerInterval);
 
+
+let totalSeconds =
+Math.floor((Date.now()-startTime)/1000);
+
+
+let min=Math.floor(totalSeconds/60);
+
+let sec=totalSeconds%60;
+
+
+let timeText =
+String(min).padStart(2,"0")
++
+":"
++
+String(sec).padStart(2,"0");
     let html=
 
     "<h1>🎉 テスト終了</h1>"+
@@ -576,7 +621,9 @@ function finish(){
     "<h2>"+score+
     " / "+
     testWords.length+
-    " 問 正解</h2>";
+    " 問 正解</h2>"+
+
+"<h3>⏱ 用时："+timeText+"</h3>";
 
 
 
