@@ -116,11 +116,16 @@ button{
 
 <select id="groupSelect" onchange="changeGroup()">
 
-<option value="0">1～20</option>
-<option value="1">21～40</option>
-<option value="2">41～60</option>
-<option value="3">61～80</option>
-<option value="4">81～100</option>
+<option value="0">1～10</option>
+<option value="1">11～20</option>
+<option value="2">21～30</option>
+<option value="3">31～40</option>
+<option value="4">41～50</option>
+<option value="5">51～60</option>
+<option value="6">61～70</option>
+<option value="7">71～80</option>
+<option value="8">81～90</option>
+<option value="9">91～100</option>
 
 </select>
 
@@ -163,11 +168,9 @@ onkeydown="if(event.key==='Enter'){check();}">
 // =====================
 
 
-const allGroups=[
+const allGroups = [
 
-
-// 1～20
-
+/* 1～10 */
 [
 {jp:"～させる",en:"let"},
 {jp:"決心する",en:"decide"},
@@ -178,7 +181,11 @@ const allGroups=[
 {jp:"注文する",en:"order"},
 {jp:"失う",en:"lose"},
 {jp:"動かす",en:"move"},
-{jp:"支払う",en:"pay"},
+{jp:"支払う",en:"pay"}
+],
+
+/*11～20*/
+[
 {jp:"待つ",en:"wait"},
 {jp:"変える",en:"change"},
 {jp:"確かめる",en:"check"},
@@ -191,9 +198,7 @@ const allGroups=[
 {jp:"費用がかかる",en:"cost"}
 ],
 
-
-//21～40
-
+/*21～30*/
 [
 {jp:"曲げる",en:"turn"},
 {jp:"に加わる",en:"join"},
@@ -204,7 +209,11 @@ const allGroups=[
 {jp:"信じる",en:"believe"},
 {jp:"報告する",en:"report"},
 {jp:"忘れる",en:"forget"},
-{jp:"傷つける",en:"hurt"},
+{jp:"傷つける",en:"hurt"}
+],
+
+/*31～40*/
+[
 {jp:"借りる",en:"borrow"},
 {jp:"驚かせる",en:"surprise"},
 {jp:"ボランティアをする",en:"volunteer"},
@@ -217,9 +226,7 @@ const allGroups=[
 {jp:"到着する",en:"arrive"}
 ],
 
-
-//41～60
-
+/*41～50*/
 [
 {jp:"提供する",en:"offer"},
 {jp:"覚えている",en:"remember"},
@@ -229,8 +236,12 @@ const allGroups=[
 {jp:"インターネット",en:"internet"},
 {jp:"考え",en:"idea"},
 {jp:"情報",en:"information"},
-{jp:"蜂蜜",en:"honey"},
-{jp:"火",en:"fire"},
+{jp:"あなた",en:"honey"},
+{jp:"火",en:"fire"}
+],
+
+/*51～60*/
+[
 {jp:"野菜",en:"vegetable"},
 {jp:"状況",en:"situation"},
 {jp:"一節",en:"passage"},
@@ -243,9 +254,7 @@ const allGroups=[
 {jp:"運動",en:"exercise"}
 ],
 
-
-//61～80
-
+/*61～70*/
 [
 {jp:"ビン",en:"bottle"},
 {jp:"合図",en:"sign"},
@@ -256,7 +265,11 @@ const allGroups=[
 {jp:"トラブル",en:"trouble"},
 {jp:"周遊旅行",en:"tour"},
 {jp:"競走",en:"race"},
-{jp:"環境",en:"environment"},
+{jp:"環境",en:"environment"}
+],
+
+/*71～80*/
+[
 {jp:"活動",en:"activity"},
 {jp:"他の",en:"other"},
 {jp:"違った",en:"different"},
@@ -269,9 +282,7 @@ const allGroups=[
 {jp:"別の",en:"another"}
 ],
 
-
-//81～100
-
+/*81～90*/
 [
 {jp:"接近した",en:"close"},
 {jp:"自分自身の",en:"own"},
@@ -282,7 +293,11 @@ const allGroups=[
 {jp:"～でさえ",en:"even"},
 {jp:"オンラインで",en:"online"},
 {jp:"屋外に",en:"outside"},
-{jp:"その代わりに",en:"instead"},
+{jp:"その代わりに",en:"instead"}
+],
+
+/*91～100*/
+[
 {jp:"遠くに",en:"far"},
 {jp:"たぶん",en:"probably"},
 {jp:"でも",en:"though"},
