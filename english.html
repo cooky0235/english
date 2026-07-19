@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>毎日の英単語テスト</title>
+<title>英検準2級 英単語テスト</title>
 
 <style>
 body {
@@ -68,15 +68,15 @@ button {
 
 <div class="container">
 
-<h1>📚 毎日の英単語テスト</h1>
+<h1>📚 英検準2級 英単語テスト</h1>
 
 <div class="count" id="count"></div>
 
 <div class="jp" id="jp"></div>
 
-<input id="answer" placeholder="英単語を入力してください">
+<input id="answer" placeholder="英単語を入力">
 
-<button onclick="check()">答え合わせ</button>
+<button onclick="check()">OK</button>
 
 <div class="result" id="result"></div>
 
@@ -87,17 +87,34 @@ button {
 
 <script>
 
-const words = [
-  {jp:"決める", en:"decide"},
-  {jp:"訓練する", en:"train"},
-  {jp:"旅行する", en:"travel"},
-  {jp:"去る・離れる", en:"leave"},
-  {jp:"公園", en:"park"},
-  {jp:"注文する", en:"order"},
-  {jp:"失う", en:"lose"},
-  {jp:"動く", en:"move"},
-  {jp:"支払う", en:"pay"}
+let words = [
+
+{jp:"～させる、許す", en:"let"},
+{jp:"決める、決定する", en:"decide"},
+{jp:"訓練する、練習する", en:"train"},
+{jp:"旅行する", en:"travel"},
+{jp:"去る、離れる、残す", en:"leave"},
+{jp:"駐車する、公園", en:"park"},
+{jp:"注文する、命令する", en:"order"},
+{jp:"失う、負ける", en:"lose"},
+{jp:"動く、引っ越す", en:"move"},
+{jp:"支払う", en:"pay"},
+{jp:"待つ", en:"wait"},
+{jp:"変える、変わる", en:"change"},
+{jp:"確認する、調べる", en:"check"},
+{jp:"建てる、作る", en:"build"},
+{jp:"心配する", en:"worry"},
+{jp:"植える", en:"plant"},
+{jp:"練習する", en:"practice"},
+{jp:"世話をする、気にかける", en:"care"},
+{jp:"説明する、描写する", en:"describe"},
+{jp:"費用がかかる", en:"cost"}
+
 ];
+
+
+// ランダム出題
+words.sort(() => Math.random() - 0.5);
 
 
 let index=0;
@@ -106,64 +123,81 @@ let score=0;
 
 function show(){
 
- document.getElementById("count").innerHTML =
- "第 "+(index+1)+" 問 / 全 "+words.length+" 問";
+document.getElementById("count").innerHTML =
+"第 "+(index+1)+" 問 / 全 "+words.length+" 問";
 
- document.getElementById("jp").innerHTML =
- words[index].jp;
 
- document.getElementById("answer").value="";
- document.getElementById("result").innerHTML="";
+document.getElementById("jp").innerHTML =
+words[index].jp;
+
+
+document.getElementById("answer").value="";
+
+document.getElementById("result").innerHTML="";
+
+
+document.getElementById("answer").focus();
 
 }
 
 
 function check(){
 
- let input=document
- .getElementById("answer")
- .value
- .trim()
- .toLowerCase();
+let input =
+document.getElementById("answer")
+.value
+.trim()
+.toLowerCase();
 
 
- if(input==words[index].en){
+if(input == words[index].en){
 
-   score++;
+score++;
 
-   document.getElementById("result")
-   .innerHTML="⭕ 正解です！";
+document.getElementById("result")
+.innerHTML="⭕ 正解です！";
 
- }else{
 
-   document.getElementById("result")
-   .innerHTML=
-   "❌ 不正解　正解：" + words[index].en;
+}else{
 
- }
+
+document.getElementById("result")
+.innerHTML=
+"❌ 不正解<br>正解："+words[index].en;
+
+
+}
 
 }
 
 
+
 function next(){
 
- index++;
+index++;
 
- if(index>=words.length){
 
-   document.querySelector(".container").innerHTML=
-   "<h1>🎉 テスト終了</h1>"+
-   "<h2>"+score+" / "+words.length+" 問 正解</h2>";
+if(index >= words.length){
 
-   return;
- }
 
- show();
+document.querySelector(".container").innerHTML=
+
+"<h1>🎉 テスト終了</h1>"+
+"<h2>"+score+" / "+words.length+" 問 正解</h2>";
+
+
+return;
 
 }
 
 
 show();
+
+}
+
+
+show();
+
 
 </script>
 
