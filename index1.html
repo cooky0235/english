@@ -373,24 +373,27 @@ function changeGroup(){
 // テスト開始
 function startTest(){
 
-  // 开始计时
-    startTime = Date.now();
+     // 重置状态
+    index = 0;
+    score = 0;
+    wrongWords = [];
+    answered = false;
+    isTimeout = false;
 
+
+    // 重新开始计时
     clearInterval(timerInterval);
 
+    startTime = Date.now();
+
     timerInterval = setInterval(updateTimer,1000);
-    
-    testWords=
-    shuffle([...allGroups[currentGroup]]);
 
 
-    index=0;
-
-    score=0;
-
-    wrongWords=[];
+    // 重新生成题目
+    testWords = shuffle([...allGroups[currentGroup]]);
 
 
+    // 显示第一题
     show();
 
 }
