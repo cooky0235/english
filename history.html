@@ -82,13 +82,13 @@ th{
 <tr>
 
 <th>日付</th>
-
+<th>問題</th>
 <th>問題数</th>
 
 <th>正解</th>
 
 <th>正答率</th>
-
+<th>間違い単語</th>
 </tr>
 
 </thead>
@@ -131,13 +131,13 @@ fetch("/api/result")
         <tr>
 
         <td>${item.test_date}</td>
-
+<td>${item.question_range}</td>
         <td>${item.total}</td>
 
         <td>${item.correct}</td>
 
         <td>${item.rate}%</td>
-
+<td>${item.wrong_words || ""}</td>
         </tr>
         `;
 
