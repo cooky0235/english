@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>英検準２ 単語テスト201-300</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f5f5f5;
+    margin:0;
+    padding:20px;
+}
+
+
+.container{
+    max-width:450px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    text-align:center;
+}
+
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+
+h1{
+    font-size:22px;
+}
+
+
+select{
+    padding:8px;
+    font-size:16px;
+    border-radius:8px;
+}
+
+
+.count{
+    color:#666;
+    margin-top:10px;
+}
+
+
+.jp{
+    font-size:30px;
+    margin:30px 0;
+    font-weight:bold;
+}
+
+
+input{
+    width:90%;
+    padding:12px;
+    font-size:22px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    text-align:center;
+}
+
+.button-area{
+    display:flex;
+    justify-content:center;
+    margin-top:15px;
+}
+
+button{
+    flex:0 0 160px;
+    margin:5px;
+    padding:14px;
+    font-size:18px;
+    border:none;
+    border-radius:8px;
+    background:#07c160;
+    color:white;
+}
+
+
+.result{
+    margin-top:20px;
+    font-size:18px;
+}
+
+
+.wrong{
+    text-align:left;
+    margin-top:20px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<div class="header">
+
+<h1>📚 英検準２ 単語3</h1>
+
+
+<select id="groupSelect" onchange="changeGroup()">
+
+<option value="0">201～210</option>
+<option value="1">211～220</option>
+<option value="2">221～230</option>
+<option value="3">231～240</option>
+<option value="4">241～250</option>
+<option value="5">251～260</option>
+<option value="6">261～270</option>
+<option value="7">271～280</option>
+<option value="8">281～290</option>
+<option value="9">291～300</option>
+
+</select>
+
+
+</div>
+
+
+<div class="count" id="count"></div>
+<div id="timer" style="color:#666;margin-top:5px;">
+時間：00:00
+</div>
+<div class="jp" id="jp"></div>
+
+
+<input 
+id="answer"
+placeholder="英単語を入力してください"
+onkeydown="if(event.key==='Enter'){check();}">
+
+
+<div class="button-area">
+
+<button onclick="check()">OK</button>
+
+</div>
+
+
+<div class="result" id="result"></div>
+
+
+</div>
+
+
+
+<script>
+
+
+// =====================
+// 英単語データ
+// =====================
+
+
+const allGroups = [
+
+/*201～210*/
+[
+{jp:"を交換する",en:"exchange"},
+{jp:"を落とす",en:"drop"},
+{jp:"を登る",en:"climb"},
+{jp:"～のにおいがする",en:"smell"},
+{jp:"とデートする",en:"date"},
+{jp:"を紹介する",en:"introduce"},
+{jp:"を再生利用する",en:"recycle"},
+{jp:"を上演する",en:"perform"},
+{jp:"を願う",en:"wish"},
+{jp:"と結婚する",en:"marry"}
+],
+
+/*211～220*/
+[
+{jp:"を表現する",en:"express"},
+{jp:"隠れる",en:"hide"},
+{jp:"を保護する",en:"protect"},
+{jp:"を受け取る",en:"receive"},
+{jp:"を盗む",en:"steal"},
+{jp:"と面接する",en:"interview"},
+{jp:"～に食べ物を与える",en:"feed"},
+{jp:"広がる",en:"spread"},
+{jp:"を配達する",en:"deliver"},
+{jp:"を探す",en:"search"}
+],
+
+/*221～230*/
+[
+{jp:"を噛む",en:"bite"},
+{jp:"を交換する",en:"trade"},
+{jp:"を発表する",en:"announce"},
+{jp:"を生産する",en:"produce"},
+{jp:"を共有する",en:"share"},
+{jp:"を描く",en:"draw"},
+{jp:"木材",en:"wood"},
+{jp:"理由",en:"reason"},
+{jp:"経験",en:"experience"},
+{jp:"請求書",en:"bill"}
+],
+
+/*231～240*/
+[
+{jp:"割引",en:"discount"},
+{jp:"用紙",en:"form"},
+{jp:"所有者",en:"owner"},
+{jp:"片側",en:"side"},
+{jp:"地域社会",en:"community"},
+{jp:"客",en:"guest"},
+{jp:"演技",en:"performance"},
+{jp:"道具",en:"tool"},
+{jp:"1世紀",en:"century"},
+{jp:"デザート",en:"dessert"}
+],
+
+/*241～250*/
+[
+{jp:"詩",en:"poem"},
+{jp:"政府",en:"government"},
+{jp:"小説",en:"novel"},
+{jp:"教授",en:"professor"},
+{jp:"計画",en:"project"},
+{jp:"慈善事業",en:"charity"},
+{jp:"100万",en:"million"},
+{jp:"器具",en:"instrument"},
+{jp:"間違い",en:"mistake"},
+{jp:"地球",en:"earth"}
+],
+
+/*251～260*/
+[
+{jp:"住所",en:"address"},
+{jp:"同僚",en:"co-worker"},
+{jp:"クリーニング店",en:"cleaner"},
+{jp:"試合",en:"match"},
+{jp:"ファン",en:"fan"},
+{jp:"祖父／祖母",en:"grandparent"},
+{jp:"大統領",en:"president"},
+{jp:"壁紙",en:"wallpaper"},
+{jp:"健康なこと",en:"health"},
+{jp:"ヨーロッパ",en:"Europe"}
+],
+
+/*261～270*/
+[
+{jp:"科学技術",en:"technology"},
+{jp:"スーツ",en:"suit"},
+{jp:"覚え書き",en:"note"},
+{jp:"得点",en:"score"},
+{jp:"才能",en:"gift"},
+{jp:"休み",en:"rest"},
+{jp:"眺め",en:"view"},
+{jp:"群集",en:"crowd"},
+{jp:"ジャズ",en:"jazz"},
+{jp:"方向",en:"direction"}
+],
+
+/*271～280*/
+[
+{jp:"話題",en:"topic"},
+{jp:"財布",en:"wallet"},
+{jp:"1片",en:"piece"},
+{jp:"小さな包み",en:"package"},
+{jp:"チームメート",en:"teammate"},
+{jp:"遊び場",en:"playground"},
+{jp:"惑星",en:"planet"},
+{jp:"高級店",en:"salon"},
+{jp:"事故",en:"accident"},
+{jp:"俳優",en:"actor"}
+],
+
+/*281～290*/
+[
+{jp:"伝統的な",en:"traditional"},
+{jp:"ロシアの",en:"Russian"},
+{jp:"人間の",en:"human"},
+{jp:"安い",en:"cheap"},
+{jp:"どちらか一方の",en:"either"},
+{jp:"プロの",en:"professional"},
+{jp:"類似した",en:"similar"},
+{jp:"パートタイムの",en:"part-time"},
+{jp:"全体の",en:"whole"},
+{jp:"凍った",en:"frozen"}
+],
+
+/*291～300*/
+[
+{jp:"中心部の",en:"central"},
+{jp:"大きい",en:"loud"},
+{jp:"奇術の",en:"magic"},
+{jp:"なかなか",en:"pretty"},
+{jp:"確かに",en:"certainly"},
+{jp:"ついに",en:"finally"},
+{jp:"1人で",en:"alone"},
+{jp:"それゆえに",en:"therefore"},
+{jp:"最近",en:"lately"},
+{jp:"もしかすると～かもしれない",en:"might"}
+]
+];
+// =====================
+// テスト処理
+// =====================
+
+
+let testWords=[];
+
+let index=0;
+
+let score=0;
+
+let wrongWords=[];
+
+let currentGroup=0;
+
+let answered=false;
+
+// 计时
+let startTime = 0;
+let timerInterval = null;
+let isTimeout = false;
+    
+// ランダム並び替え
+function shuffle(array){
+
+    for(let i=array.length-1;i>0;i--){
+
+        let j=Math.floor(Math.random()*(i+1));
+
+        [array[i],array[j]]=[array[j],array[i]];
+
+    }
+
+    return array;
+
+}
+
+
+
+// グループ変更
+function changeGroup(){
+
+    currentGroup=
+    Number(document.getElementById("groupSelect").value);
+  // 保存当前选择
+    localStorage.setItem(
+        "lastGroup",
+        currentGroup
+    );
+
+    startTest();
+
+}
+
+
+
+// テスト開始
+function startTest(){
+
+     // 重置状态
+    index = 0;
+    score = 0;
+    wrongWords = [];
+    answered = false;
+    isTimeout = false;
+
+
+    // 重新开始计时
+    clearInterval(timerInterval);
+
+    startTime = Date.now();
+
+    timerInterval = setInterval(updateTimer,1000);
+
+
+    // 重新生成题目
+    testWords = shuffle([...allGroups[currentGroup]]);
+
+
+    // 显示第一题
+    show();
+
+}
+
+
+
+// 問題表示
+function show(){
+
+
+    answered=false;
+
+
+    document.getElementById("count").innerHTML=
+
+    "第 "+(index+1)+" 問 / 全 "+testWords.length+" 問";
+
+
+
+    document.getElementById("jp").innerHTML=
+
+    testWords[index].jp;
+
+  let answerBox = document.getElementById("answer");
+
+
+    answerBox.disabled=false;
+
+    answerBox.value="";
+
+
+    document.getElementById("result").innerHTML="";
+
+
+    // 自动进入输入框
+    answerBox.focus();
+
+}
+
+
+
+
+// 間違い追加
+function addWrong(){
+
+
+    let exists =
+    wrongWords.some(function(word){
+
+        return word.en==testWords[index].en;
+
+    });
+
+
+
+    if(!exists){
+
+        wrongWords.push(testWords[index]);
+
+    }
+
+
+}
+
+
+
+
+// OKボタン
+function check(){
+
+
+    let answerBox=
+    document.getElementById("answer");
+
+
+
+    if(answered){
+
+        return;
+
+    }
+
+
+
+    let input=
+    answerBox.value
+    .trim()
+    .toLowerCase();
+
+
+
+    answered=true;
+
+    answerBox.disabled=true;
+
+let delay;
+
+    if(input==testWords[index].en){
+
+
+        score++;
+
+
+        document.getElementById("result").innerHTML=
+
+        "⭕ 正解です！";
+ delay = 1000;
+
+    }else{
+
+
+        addWrong();
+
+
+        document.getElementById("result").innerHTML=
+
+        "❌ 不正解　正解："+testWords[index].en;
+
+ delay = 2000;
+    }
+
+
+
+  setTimeout(function(){
+if(isTimeout){
+        return;
+    }
+    moveNext();
+
+   if(document.getElementById("answer")){
+        document.getElementById("answer").focus();
+    }
+
+},delay);
+}
+
+
+
+
+
+
+
+// 次の問題へ
+function moveNext(){
+
+
+    index++;
+
+
+
+    if(index>=testWords.length){
+
+
+        finish();
+
+        return;
+
+    }
+
+
+
+    show();
+
+
+}
+
+function updateTimer(){
+
+    let seconds = Math.floor(
+        (Date.now() - startTime) / 1000
+    );
+
+
+    let min = Math.floor(seconds / 60);
+
+    let sec = seconds % 60;
+
+
+    document.getElementById("timer").innerHTML =
+    "時間：" +
+    String(min).padStart(2,"0") +
+    ":" +
+    String(sec).padStart(2,"0");
+    
+  // 3分超過で終了
+    if(seconds >= 180){
+
+        clearInterval(timerInterval);
+
+        isTimeout = true;
+
+        finish();
+ return;
+    }
+}
+
+// 終了画面
+function finish(){
+
+clearInterval(timerInterval);
+
+
+let totalSeconds =
+Math.floor((Date.now()-startTime)/1000);
+
+
+let min=Math.floor(totalSeconds/60);
+
+let sec=totalSeconds%60;
+
+
+let timeText =
+String(min).padStart(2,"0")
++
+":"
++
+String(sec).padStart(2,"0");
+
+    let startNo = currentGroup * 10 + 1;
+let endNo = currentGroup * 10 + 10;
+    
+    let html=
+
+    "<h1>🎉 テスト終了</h1>"+
+(isTimeout
+?
+"<h2>⏰ 制限時間を超えました</h2>"
+:
+""
+)+
+          "<h3>問題：" + startNo + "～" + endNo + "</h3>" +
+    "<h2>"+score+
+    " / "+
+    testWords.length+
+    " 問 正解</h2>"+
+
+"<h3>⏱ 時間："+timeText+"</h3>";
+
+
+
+
+    if(wrongWords.length>0){
+
+
+
+        html+=
+
+        "<div class='wrong'>"+
+
+        "<h3>❌ 間違えた単語</h3>";
+
+
+
+        wrongWords.forEach(function(word){
+
+
+            html+=
+
+            "<p>"+
+            word.jp+
+            " → "+
+            word.en+
+            "</p>";
+
+
+        });
+
+
+
+        html+="</div>";
+
+
+
+        html+=
+
+        "<button class='retry-btn' onclick='retryWrong()'>"+
+        "もう一度間違えた単語だけテストする"+
+        "</button>";
+
+
+
+   }else if(!isTimeout){
+
+    html+=
+    "<h3>🎊 全問正解です！</h3>";
+
+}
+
+html +=
+"<br><br>" +
+"<button class='retry-btn' onclick='goHome()'>ホームへ戻る</button>";
+
+document.querySelector(".container").innerHTML = html;
+
+
+}
+
+
+
+
+// 間違えた単語だけ再テスト
+function retryWrong(){
+
+
+
+    testWords=
+    shuffle([...wrongWords]);
+
+
+
+    index=0;
+
+    score=0;
+
+    wrongWords=[];
+ answered = false;
+
+    isTimeout = false;
+
+    document.querySelector(".container").innerHTML=
+
+
+    "<div class='header'>"+
+    "<h1>📚 間違えた単語テスト</h1>"+
+    "</div>"+
+
+
+    "<div class='count' id='count'></div>"+
+
+
+    "<div class='jp' id='jp'></div>"+
+
+
+    "<input id='answer' "+
+    "placeholder='英単語を入力してください' "+
+    "onkeydown=\"if(event.key==='Enter'){check();}\">"+
+
+
+
+    "<div class='button-area'>"+
+
+    "<button onclick='check()'>OK</button>"+
+
+
+    "</div>"+
+
+
+
+    "<div class='result' id='result'></div>";
+
+
+answered = false;
+isTimeout = false;
+    show();
+
+
+}
+
+// ホームへ戻る
+function goHome(){
+
+    location.reload();
+
+}
+
+
+// 開始
+let savedGroup = localStorage.getItem("lastGroup");
+
+
+if(savedGroup !== null){
+
+    currentGroup = Number(savedGroup);
+
+    document.getElementById("groupSelect").value = currentGroup;
+
+}
+
+
+startTest();
+
+
+setTimeout(function(){
+
+    document.getElementById("answer").focus();
+
+},100);
+</script>
+
+</body>
+
+</html>
