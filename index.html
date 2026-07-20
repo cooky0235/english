@@ -68,22 +68,20 @@ input{
     text-align:center;
 }
 
-
 .button-area{
-    display:flex;
+    text-align:center;
     margin-top:15px;
 }
 
-
-button{
-    flex:1;
-    margin:5px;
+.button-area button{
+    width:160px;
     padding:14px;
     font-size:18px;
     border:none;
     border-radius:8px;
     background:#07c160;
     color:white;
+    cursor:pointer;
 }
 
 
@@ -134,7 +132,9 @@ button{
 
 
 <div class="count" id="count"></div>
-
+<div id="timer" style="color:#666;margin-top:5px;">
+時間：00:00
+</div>
 <div class="jp" id="jp"></div>
 
 
@@ -147,8 +147,6 @@ onkeydown="if(event.key==='Enter'){check();}">
 <div class="button-area">
 
 <button onclick="check()">OK</button>
-
-<button onclick="next()">次へ</button>
 
 </div>
 
@@ -329,8 +327,11 @@ let currentGroup=0;
 
 let answered=false;
 
-
-
+// 计时
+let startTime = 0;
+let timerInterval = null;
+let isTimeout = false;
+    
 // ランダム並び替え
 function shuffle(array){
 
@@ -368,18 +369,27 @@ function changeGroup(){
 // テスト開始
 function startTest(){
 
-
-    testWords=
-    shuffle([...allGroups[currentGroup]]);
-
-
-    index=0;
-
-    score=0;
-
-    wrongWords=[];
+     // 重置状态
+    index = 0;
+    score = 0;
+    wrongWords = [];
+    answered = false;
+    isTimeout = false;
 
 
+    // 重新开始计时
+    clearInterval(timerInterval);
+
+    startTime = Date.now();
+
+    timerInterval = setInterval(updateTimer,1000);
+
+
+    // 重新生成题目
+    testWords = shuffle([...allGroups[currentGroup]]);
+
+
+    // 显示第一题
     show();
 
 }
@@ -504,37 +514,20 @@ let delay;
 
 
   setTimeout(function(){
-
+if(isTimeout){
+        return;
+    }
     moveNext();
 
-    document.getElementById("answer").focus();
+   if(document.getElementById("answer")){
+        document.getElementById("answer").focus();
+    }
 
 },delay);
 }
 
 
 
-
-// 次へボタン
-function next(){
-
-
-
-    // 未回答なら間違い扱い
-    if(!answered){
-
-
-        addWrong();
-
-
-    }
-
-
-
-    moveNext();
-
-
-}
 
 
 
@@ -563,20 +556,77 @@ function moveNext(){
 
 }
 
+function updateTimer(){
 
+    let seconds = Math.floor(
+        (Date.now() - startTime) / 1000
+    );
+
+
+    let min = Math.floor(seconds / 60);
+
+    let sec = seconds % 60;
+
+
+    document.getElementById("timer").innerHTML =
+    "時間：" +
+    String(min).padStart(2,"0") +
+    ":" +
+    String(sec).padStart(2,"0");
+    
+  // 3分超過で終了
+    if(seconds >= 180){
+
+        clearInterval(timerInterval);
+
+        isTimeout = true;
+
+        finish();
+ return;
+    }
+}
 
 // 終了画面
 function finish(){
 
+clearInterval(timerInterval);
 
+
+let totalSeconds =
+Math.floor((Date.now()-startTime)/1000);
+
+
+let min=Math.floor(totalSeconds/60);
+
+let sec=totalSeconds%60;
+
+
+let timeText =
+String(min).padStart(2,"0")
++
+":"
++
+String(sec).padStart(2,"0");
+
+    let startNo = currentGroup * 10 + 1;
+let endNo = currentGroup * 10 + 10;
+    
     let html=
 
     "<h1>🎉 テスト終了</h1>"+
-
+(isTimeout
+?
+"<h2>⏰ 制限時間を超えました</h2>"
+:
+""
+)+
+          "<h3>問題：" + startNo + "～" + endNo + "</h3>" +
     "<h2>"+score+
     " / "+
     testWords.length+
-    " 問 正解</h2>";
+    " 問 正解</h2>"+
+
+"<h3>⏱ 時間："+timeText+"</h3>";
 
 
 
@@ -621,15 +671,12 @@ function finish(){
 
 
 
-    }else{
+   }else if(!isTimeout){
 
+    html+=
+    "<h3>🎊 全問正解です！</h3>";
 
-        html+=
-
-        "<h3>🎊 全問正解です！</h3>";
-
-
-    }
+}
 
 html +=
 "<br><br>" +
@@ -658,7 +705,9 @@ function retryWrong(){
     score=0;
 
     wrongWords=[];
+ answered = false;
 
+    isTimeout = false;
 
     document.querySelector(".container").innerHTML=
 
@@ -684,7 +733,6 @@ function retryWrong(){
 
     "<button onclick='check()'>OK</button>"+
 
-    "<button onclick='next()'>次へ</button>"+
 
     "</div>"+
 
@@ -693,7 +741,8 @@ function retryWrong(){
     "<div class='result' id='result'></div>";
 
 
-
+answered = false;
+isTimeout = false;
     show();
 
 
