@@ -360,14 +360,7 @@ function changeGroup(){
         "lastGroup",
         currentGroup
     );
-userName = prompt("名前を入力してください");
 
-
-if(!userName){
-
-    userName = "guest";
-
-}
     startTest();
 
 }
@@ -384,6 +377,9 @@ isRetry = false;
     answered = false;
     isTimeout = false;
 
+    if(!userName){
+    userName = prompt("名前を入力してください");
+}
 
     // 重新开始计时
     clearInterval(timerInterval);
