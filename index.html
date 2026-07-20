@@ -587,11 +587,53 @@ function updateTimer(){
     }
 }
 
+    function saveResult(){
+
+    fetch("/api/result",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+
+            name:"yuka",
+
+            date:new Date().toLocaleString(),
+
+            total:questions.length,
+
+            correct:correctCount,
+
+            rate:Math.round(
+                correctCount / questions.length * 100
+            )
+
+        })
+
+    })
+    .then(response=>response.json())
+    .then(data=>{
+
+        console.log("保存成功",data);
+
+    })
+    .catch(error=>{
+
+        console.log("保存失败",error);
+
+    });
+
+}
+    
 // 終了画面
 function finish(){
 
 clearInterval(timerInterval);
-
+    
+ saveResult();
 
 let totalSeconds =
 Math.floor((Date.now()-startTime)/1000);
