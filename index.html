@@ -377,8 +377,28 @@ isRetry = false;
     answered = false;
     isTimeout = false;
 
-    if(!userName){
+userName = localStorage.getItem("userName");
+
+
+if(!userName){
+
     userName = prompt("名前を入力してください");
+
+
+    if(!userName){
+
+        alert("名前を入力してください");
+
+        location.reload();
+
+    }
+
+
+    localStorage.setItem(
+        "userName",
+        userName
+    );
+
 }
 
     // 重新开始计时
