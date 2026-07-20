@@ -44,13 +44,23 @@ wrong_words
 VALUES (?, ?, ?, ?, ?, ?, ?)
             `
         )
-        .bind(
-            data.name,
-            data.date,
-            data.total,
-            data.correct,
-            data.rate
-        )
+       .bind(
+
+    data.name,
+
+    data.date,
+
+    data.questionRange,
+
+    data.total,
+
+    data.correct,
+
+    data.rate,
+
+    data.wrongWords
+
+)
         .run();
 
 
