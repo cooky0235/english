@@ -135,8 +135,11 @@ button:hover{
 
 <script>
 
+const params = new URLSearchParams(location.search);
 
-fetch("/api/result")
+const name = params.get("name");
+    
+fetch("/api/result?name=" + encodeURIComponent(name))
 
 
 .then(response=>response.json())
