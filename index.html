@@ -584,8 +584,8 @@ function updateTimer(){
  return;
     }
 }
-
-    function saveResult(){
+    
+function saveResult(){
 
     fetch("/api/result",{
 
@@ -601,12 +601,12 @@ function updateTimer(){
 
             date:new Date().toLocaleString(),
 
-            total:questions.length,
+            total:testWords.length,
 
-            correct:correctCount,
+            correct:score,
 
             rate:Math.round(
-                correctCount / questions.length * 100
+                score / testWords.length * 100
             )
 
         })
