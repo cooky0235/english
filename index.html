@@ -380,24 +380,32 @@ isRetry = false;
 userName = localStorage.getItem("userName");
 
 
+userName = localStorage.getItem("userName");
+
+
 if(!userName){
 
-    userName = prompt("名前を入力してください");
+    while(true){
+
+        userName = prompt("名前を入力してください");
 
 
-    if(!userName){
+        if(userName && userName.trim() !== ""){
+
+            userName = userName.trim();
+
+            localStorage.setItem(
+                "userName",
+                userName
+            );
+
+            break;
+
+        }
 
         alert("名前を入力してください");
 
-        location.reload();
-
     }
-
-
-    localStorage.setItem(
-        "userName",
-        userName
-    );
 
 }
 
