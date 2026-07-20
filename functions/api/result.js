@@ -56,9 +56,9 @@ DO UPDATE SET
 
     data.name,
 
+    data.questionRange,
     data.date,
 
-    data.questionRange,
 
     data.total,
 
