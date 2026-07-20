@@ -31,9 +31,17 @@ export async function onRequest(context) {
 
         await context.env.DB.prepare(
             `
-            INSERT INTO results
-            (name, test_date, total, correct, rate)
-            VALUES (?, ?, ?, ?, ?)
+           INSERT INTO results
+(
+name,
+test_date,
+question_range,
+total,
+correct,
+rate,
+wrong_words
+)
+VALUES (?, ?, ?, ?, ?, ?, ?)
             `
         )
         .bind(
