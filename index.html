@@ -634,6 +634,13 @@ function saveResult(){
     });
 
 }
+
+    // 履歴画面へ
+function goHistory(){
+
+    location.href = "history.html";
+
+}
     
 // 終了画面
 function finish(){
@@ -725,7 +732,8 @@ let endNo = currentGroup * 10 + 10;
 
     html+=
     "<h3>🎊 全問正解です！</h3>";
-
+ html +=
+    "<button class='retry-btn' onclick='goHistory()'>履歴参照</button>";
 }
 
 html +=
