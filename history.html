@@ -59,7 +59,19 @@ th{
 
 }
 
+button{
+    padding:14px 30px;
+    font-size:18px;
+    border:none;
+    border-radius:8px;
+    background:#07c160;
+    color:white;
+    cursor:pointer;
+}
 
+button:hover{
+    opacity:0.9;
+}
 </style>
 
 </head>
@@ -102,7 +114,9 @@ th{
 
 </table>
 
+<br><br>
 
+<button onclick="goHome()">ホームへ戻る</button>
 </div>
 
 
@@ -165,7 +179,11 @@ fetch("/api/result")
 
 });
 
+function goHome(){
 
+    location.href = "index.html";
+
+}
 </script>
 
 
