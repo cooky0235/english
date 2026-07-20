@@ -150,8 +150,6 @@ onkeydown="if(event.key==='Enter'){check();}">
 
 <button onclick="check()">OK</button>
 
-<button onclick="next()">次へ</button>
-
 </div>
 
 
@@ -530,33 +528,6 @@ if(isTimeout){
 },delay);
 }
 
-
-
-
-// 次へボタン
-function next(){
-
-
-
-    // 未回答なら間違い扱い
-    if(!answered){
-
-
-        addWrong();
-
-
-    }
-
-
-
-    moveNext();
-
-
-}
-
-
-
-
 // 次の問題へ
 function moveNext(){
 
@@ -756,8 +727,6 @@ function retryWrong(){
     "<div class='button-area'>"+
 
     "<button onclick='check()'>OK</button>"+
-
-    "<button onclick='next()'>次へ</button>"+
 
     "</div>"+
 
