@@ -587,6 +587,11 @@ function updateTimer(){
     
 function saveResult(){
 
+    let wrongEnglish = wrongWords
+        .map(word => word.en)
+        .join(",");
+
+
     fetch("/api/result",{
 
         method:"POST",
@@ -601,13 +606,22 @@ function saveResult(){
 
             date:new Date().toLocaleString(),
 
+            questionRange:
+                (currentGroup * 10 + 1)
+                +
+                "-"
+                +
+                (currentGroup * 10 + 10),
+
             total:testWords.length,
 
             correct:score,
 
             rate:Math.round(
                 score / testWords.length * 100
-            )
+            ),
+
+            wrongWords:wrongEnglish
 
         })
 
@@ -616,11 +630,6 @@ function saveResult(){
     .then(data=>{
 
         console.log("保存成功",data);
-
-    })
-    .catch(error=>{
-
-        console.log("保存失败",error);
 
     });
 
