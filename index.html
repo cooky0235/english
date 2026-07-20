@@ -326,7 +326,7 @@ let wrongWords=[];
 let currentGroup=0;
 
 let answered=false;
-let userName="";
+
 // 计时
 let startTime = 0;
 let timerInterval = null;
@@ -592,7 +592,7 @@ function saveResult(){
         .join(",");
 
 
- return   fetch("/api/result",{
+    fetch("/api/result",{
 
         method:"POST",
 
@@ -602,7 +602,7 @@ function saveResult(){
 
         body:JSON.stringify({
 
-            name:userName,
+            name:"yuka",
 
             date:new Date().toLocaleString(),
 
@@ -644,19 +644,10 @@ function goHistory(){
         return;
     }
 
-   saveResult()
-    .then(()=>{
-
-
-        location.href =
-        "history.html?name="
-        +
-        encodeURIComponent(userName)
-        +
-        "&from=index202.html";
-
-
-    });
+    location.href =
+        "history.html?name=" +
+        encodeURIComponent(name) +
+        "&from=index.html";
 
 }
     
@@ -665,6 +656,11 @@ function finish(){
 
 clearInterval(timerInterval);
     
+ if(!isRetry){
+
+    saveResult();
+
+}
 
 let totalSeconds =
 Math.floor((Date.now()-startTime)/1000);
