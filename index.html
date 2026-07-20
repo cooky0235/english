@@ -332,6 +332,7 @@ let startTime = 0;
 let timerInterval = null;
 let isTimeout = false;
     let isRetry = false;
+    let userName = "";
 // ランダム並び替え
 function shuffle(array){
 
@@ -359,7 +360,14 @@ function changeGroup(){
         "lastGroup",
         currentGroup
     );
+userName = prompt("名前を入力してください");
 
+
+if(!userName){
+
+    userName = "guest";
+
+}
     startTest();
 
 }
@@ -602,7 +610,7 @@ function saveResult(){
 
         body:JSON.stringify({
 
-            name:"yuka",
+           name:userName,
 
             date:new Date().toLocaleString(),
 
