@@ -638,7 +638,15 @@ function saveResult(){
     // 履歴画面へ
 function goHistory(){
 
-    location.href = "history.html";
+    const name = prompt("パスワードを入力してください");
+
+    if(!name){
+        return;
+    }
+
+    location.href =
+        "history.html?name=" +
+        encodeURIComponent(name);
 
 }
     
