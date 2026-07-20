@@ -31,17 +31,25 @@ export async function onRequest(context) {
 
         await context.env.DB.prepare(
             `
-           INSERT INTO results
+         INSERT INTO results
 (
 name,
-test_date,
 question_range,
+test_date,
 total,
 correct,
 rate,
 wrong_words
 )
-VALUES (?, ?, ?, ?, ?, ?, ?)
+VALUES
+(?,?,?,?,?,?,?)
+ON CONFLICT(name, question_range)
+DO UPDATE SET
+    test_date = excluded.test_date,
+    total = excluded.total,
+    correct = excluded.correct,
+    rate = excluded.rate,
+    wrong_words = excluded.wrong_words;
             `
         )
        .bind(
