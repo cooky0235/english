@@ -138,7 +138,7 @@ button:hover{
 const params = new URLSearchParams(location.search);
 
 const name = params.get("name");
-    
+    const from = params.get("from");
 fetch("/api/result?name=" + encodeURIComponent(name))
 
 
@@ -194,11 +194,19 @@ fetch("/api/result?name=" + encodeURIComponent(name))
 
 });
 
-function goHome(){
+    function goHome(){
 
-    history.back();
+    if(from){
 
+        location.href = from;
+
+    }else{
+
+         history.back();
+
+    }
 }
+
 </script>
 
 
