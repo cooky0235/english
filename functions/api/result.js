@@ -3,21 +3,22 @@ export async function onRequest(context) {
 
     // 查询成绩
     if(context.request.method === "GET"){
+const url = new URL(context.request.url);
 
+const name = url.searchParams.get("name");
 
-        const result = await context.env.DB
-        .prepare(
-            `
-            SELECT *
-            FROM results
-            ORDER BY id DESC
-            `
-        )
-        .all();
+const result = await context.env.DB.prepare(
+`
+SELECT *
+FROM results
+WHERE name = ?
+ORDER BY question_range
+`
+)
+.bind(name)
+.all();
 
-
-        return Response.json(result.results);
-
+return Response.json(result.results);
     }
 
 
