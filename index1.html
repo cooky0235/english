@@ -68,22 +68,20 @@ input{
     text-align:center;
 }
 
-
 .button-area{
-    display:flex;
+    text-align:center;
     margin-top:15px;
 }
 
-
-button{
-    flex:1;
-    margin:5px;
+.button-area button{
+    width:160px;
     padding:14px;
     font-size:18px;
     border:none;
     border-radius:8px;
     background:#07c160;
     color:white;
+    cursor:pointer;
 }
 
 
@@ -149,8 +147,6 @@ onkeydown="if(event.key==='Enter'){check();}">
 <div class="button-area">
 
 <button onclick="check()">OK</button>
-
-<button onclick="next()">次へ</button>
 
 </div>
 
@@ -533,27 +529,6 @@ if(isTimeout){
 
 
 
-// 次へボタン
-function next(){
-
-
-
-    // 未回答なら間違い扱い
-    if(!answered){
-
-
-        addWrong();
-
-
-    }
-
-
-
-    moveNext();
-
-
-}
-
 
 
 
@@ -632,6 +607,10 @@ String(min).padStart(2,"0")
 ":"
 +
 String(sec).padStart(2,"0");
+
+    let startNo = currentGroup * 10 + 1;
+let endNo = currentGroup * 10 + 10;
+    
     let html=
 
     "<h1>🎉 テスト終了</h1>"+
@@ -641,6 +620,7 @@ String(sec).padStart(2,"0");
 :
 ""
 )+
+          "<h3>問題：" + startNo + "～" + endNo + "</h3>" +
     "<h2>"+score+
     " / "+
     testWords.length+
@@ -753,7 +733,6 @@ function retryWrong(){
 
     "<button onclick='check()'>OK</button>"+
 
-    "<button onclick='next()'>次へ</button>"+
 
     "</div>"+
 
