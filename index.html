@@ -331,7 +331,7 @@ let answered=false;
 let startTime = 0;
 let timerInterval = null;
 let isTimeout = false;
-    
+    let isRetry = false;
 // ランダム並び替え
 function shuffle(array){
 
@@ -368,7 +368,7 @@ function changeGroup(){
 
 // テスト開始
 function startTest(){
-
+isRetry = false;
      // 重置状态
     index = 0;
     score = 0;
@@ -647,7 +647,11 @@ function finish(){
 
 clearInterval(timerInterval);
     
- saveResult();
+ if(!isRetry){
+
+    saveResult();
+
+}
 
 let totalSeconds =
 Math.floor((Date.now()-startTime)/1000);
@@ -751,7 +755,7 @@ document.querySelector(".container").innerHTML = html;
 // 間違えた単語だけ再テスト
 function retryWrong(){
 
-
+isRetry = true;
 
     testWords=
     shuffle([...wrongWords]);
