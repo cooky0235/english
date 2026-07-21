@@ -635,11 +635,11 @@ function saveResult(){
             date:new Date().toLocaleString(),
 
             questionRange:
-                (currentGroup * 10 + 1)
+                (currentGroup * 10 + 101)
                 +
                 "-"
                 +
-                (currentGroup * 10 + 10),
+                (currentGroup * 10 + 110),
 
             total:testWords.length,
 
@@ -706,8 +706,8 @@ String(min).padStart(2,"0")
 +
 String(sec).padStart(2,"0");
 
-    let startNo = currentGroup * 10 + 1;
-let endNo = currentGroup * 10 + 10;
+    let startNo = currentGroup * 10 + 101;
+let endNo = currentGroup * 10 + 110;
     
     let html=
 
