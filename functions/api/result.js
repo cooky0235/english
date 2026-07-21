@@ -12,7 +12,7 @@ const result = await context.env.DB.prepare(
 SELECT *
 FROM results
 WHERE name = ?
-ORDER BY question_range
+ORDER BY CAST(SUBSTR(question_range,1,INSTR(question_range,'-')-1) AS INTEGER);
 `
 )
 .bind(name)
