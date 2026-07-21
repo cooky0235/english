@@ -16,7 +16,6 @@ body{
     padding:20px;
 }
 
-
 .container{
     max-width:450px;
     margin:auto;
@@ -308,6 +307,8 @@ const allGroups = [
 {jp:"～なしで",en:"without"},
 {jp:"～を通って",en:"through"}
 ]
+
+
 ];
 // =====================
 // テスト処理
@@ -330,7 +331,8 @@ let answered=false;
 let startTime = 0;
 let timerInterval = null;
 let isTimeout = false;
-    
+    let isRetry = false;
+    let userName = "";
 // ランダム並び替え
 function shuffle(array){
 
@@ -367,7 +369,7 @@ function changeGroup(){
 
 // テスト開始
 function startTest(){
-
+isRetry = false;
      // 重置状态
     index = 0;
     score = 0;
@@ -375,6 +377,33 @@ function startTest(){
     answered = false;
     isTimeout = false;
 
+userName = localStorage.getItem("userName");
+
+if(!userName){
+
+    while(true){
+
+        userName = prompt("名前を入力してください");
+
+
+        if(userName && userName.trim() !== ""){
+
+            userName = userName.trim();
+
+            localStorage.setItem(
+                "userName",
+                userName
+            );
+
+            break;
+
+        }
+
+        alert("名前を入力してください");
+
+    }
+
+}
 
     // 重新开始计时
     clearInterval(timerInterval);
@@ -534,7 +563,6 @@ if(isTimeout){
 // 次の問題へ
 function moveNext(){
 
-
     index++;
 
 
@@ -584,12 +612,83 @@ function updateTimer(){
  return;
     }
 }
+    
+function saveResult(){
 
+    let wrongEnglish = wrongWords
+        .map(word => word.en)
+        .join(",");
+
+
+    fetch("/api/result",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+
+           name:userName,
+
+            date:new Date().toLocaleString(),
+
+            questionRange:
+                (currentGroup * 10 + 1)
+                +
+                "-"
+                +
+                (currentGroup * 10 + 10),
+
+            total:testWords.length,
+
+            correct:score,
+
+            rate:Math.round(
+                score / testWords.length * 100
+            ),
+
+            wrongWords:wrongEnglish
+
+        })
+
+    })
+    .then(response=>response.json())
+    .then(data=>{
+
+        console.log("保存成功",data);
+
+    });
+
+}
+
+    // 履歴画面へ
+function goHistory(){
+
+    const name = prompt("パスワードを入力してください");
+
+    if(!name){
+        return;
+    }
+
+    location.href =
+        "history.html?name=" +
+        encodeURIComponent(name) +
+        "&from=index202.html";
+
+}
+    
 // 終了画面
 function finish(){
 
 clearInterval(timerInterval);
+    
+ if(!isRetry){
 
+    saveResult();
+
+}
 
 let totalSeconds =
 Math.floor((Date.now()-startTime)/1000);
@@ -674,7 +773,8 @@ let endNo = currentGroup * 10 + 10;
 
     html+=
     "<h3>🎊 全問正解です！</h3>";
-
+ html +=
+    "<button class='retry-btn' onclick='goHistory()'>履歴参照</button>";
 }
 
 html +=
@@ -692,7 +792,7 @@ document.querySelector(".container").innerHTML = html;
 // 間違えた単語だけ再テスト
 function retryWrong(){
 
-
+isRetry = true;
 
     testWords=
     shuffle([...wrongWords]);
