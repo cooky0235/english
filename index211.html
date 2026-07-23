@@ -203,19 +203,40 @@ function shuffle(array){
 // グループ変更
 function changeGroup(){
 
-    currentGroup=
-    Number(document.getElementById("groupSelect").value);
-  // 保存当前选择
-    localStorage.setItem(
-        "lastGroup",
-        currentGroup
-    );
+   let text = 
+        document.getElementById("groupSelect").value;
+
+
+    // 分割 ～ 
+    let range = text.split("～");
+
+
+    let startId = Number(range[0]);
+    let endId = Number(range[1]);
+
+
+    getWords(startId,endId);
 
     startTest();
 
 }
 
+function getWords(startId,endId){
 
+    fetch(
+        `/api/words?start=${startId}&end=${endId}`
+    )
+    .then(res=>res.json())
+    .then(data=>{
+
+        console.log(data);
+
+        // 开始测试
+        testWords=data;
+
+    });
+
+}
 
 // テスト開始
 async function startTest(){
