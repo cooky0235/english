@@ -183,6 +183,8 @@ let timerInterval = null;
 let isTimeout = false;
     let isRetry = false;
     let userName = "";
+    let currentRange = "";
+    
 // ランダム並び替え
 function shuffle(array){
 
@@ -209,7 +211,7 @@ async function changeGroup(){
         "lastGroup",
         text
     );
-
+currentRange = text;
     let range=text.split("～");
 
 
@@ -501,12 +503,8 @@ function saveResult(){
 
             date:new Date().toLocaleString(),
 
-            questionRange:
-                (currentGroup * 10 + 1)
-                +
-                "-"
-                +
-                (currentGroup * 10 + 10),
+         questionRange:
+    currentRange,
 
             total:testWords.length,
 
@@ -573,8 +571,7 @@ String(min).padStart(2,"0")
 +
 String(sec).padStart(2,"0");
 
-    let startNo = currentGroup * 10 + 1;
-let endNo = currentGroup * 10 + 10;
+   let rangeText = currentRange;
     
     let html=
 
@@ -585,7 +582,7 @@ let endNo = currentGroup * 10 + 10;
 :
 ""
 )+
-          "<h3>問題：" + startNo + "～" + endNo + "</h3>" +
+         "<h3>問題：" + rangeText + "</h3>"+
     "<h2>"+score+
     " / "+
     testWords.length+
