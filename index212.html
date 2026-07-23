@@ -208,7 +208,7 @@ async function changeGroup(){
     let text =
     document.getElementById("groupSelect").value;
     localStorage.setItem(
-        "lastGroup",
+        "lastGroup212",
         text
     );
 currentRange = text;
@@ -720,14 +720,14 @@ function goHome(){
 
 
 // 開始
-let savedGroup = localStorage.getItem("lastGroup");
+let savedGroup = localStorage.getItem("lastGroup212");
 
+if(savedGroup === null){
 
-if(savedGroup !== null){
-
-    document.getElementById("groupSelect").value = savedGroup;
+    savedGroup = "101～110";
 
 }
+document.getElementById("groupSelect").value = savedGroup;
 
 
 window.onload=function(){
