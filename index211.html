@@ -201,8 +201,9 @@ function shuffle(array){
 
 
 // グループ変更
-function changeGroup(){
- let text =
+async function changeGroup(){
+
+    let text =
     document.getElementById("groupSelect").value;
 
 
@@ -213,7 +214,8 @@ function changeGroup(){
     let endId=Number(range[1]);
 
 
-   await getWords(startId,endId);
+    await getWords(startId,endId);
+
 
     startTest();
 
