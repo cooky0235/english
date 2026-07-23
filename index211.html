@@ -114,16 +114,16 @@ button{
 
 <select id="groupSelect" onchange="changeGroup()">
 
-<option value="0">1～10</option>
-<option value="1">11～20</option>
-<option value="2">21～30</option>
-<option value="3">31～40</option>
-<option value="4">41～50</option>
-<option value="5">51～60</option>
-<option value="6">61～70</option>
-<option value="7">71～80</option>
-<option value="8">81～90</option>
-<option value="9">91～100</option>
+<option>1～10</option>
+<option >11～20</option>
+<option >21～30</option>
+<option>31～40</option>
+<option >41～50</option>
+<option >51～60</option>
+<option >61～70</option>
+<option >71～80</option>
+<option>81～90</option>
+<option >91～100</option>
 
 </select>
 
@@ -202,20 +202,18 @@ function shuffle(array){
 
 // グループ変更
 function changeGroup(){
-
-   let text = 
-        document.getElementById("groupSelect").value;
-
-
-    // 分割 ～ 
-    let range = text.split("～");
+ let text =
+    document.getElementById("groupSelect").value;
 
 
-    let startId = Number(range[0]);
-    let endId = Number(range[1]);
+    let range=text.split("～");
 
 
-    getWords(startId,endId);
+    let startId=Number(range[0]);
+    let endId=Number(range[1]);
+
+
+   await getWords(startId,endId);
 
     startTest();
 
