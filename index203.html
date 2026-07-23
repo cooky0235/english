@@ -16,7 +16,6 @@ body{
     padding:20px;
 }
 
-
 .container{
     max-width:450px;
     margin:auto;
@@ -115,16 +114,16 @@ button{
 
 <select id="groupSelect" onchange="changeGroup()">
 
-<option value="0">201～210</option>
-<option value="1">211～220</option>
-<option value="2">221～230</option>
-<option value="3">231～240</option>
-<option value="4">241～250</option>
-<option value="5">251～260</option>
-<option value="6">261～270</option>
-<option value="7">271～280</option>
-<option value="8">281～290</option>
-<option value="9">291～300</option>
+<option value="201～210">201～210</option>
+<option value="211～220">211～220</option>
+<option value="221～230">221～230</option>
+<option value="231～240">231～240</option>
+<option value="241～250">241～250</option>
+<option value="251～260">251～260</option>
+<option value="261～270">261～270</option>
+<option value="271～280">271～280</option>
+<option value="281～290">281～290</option>
+<option value="291～300">291～300</option>
 
 </select>
 
@@ -161,154 +160,6 @@ onkeydown="if(event.key==='Enter'){check();}">
 
 <script>
 
-
-// =====================
-// 英単語データ
-// =====================
-
-
-const allGroups = [
-
-/*201～210*/
-[
-{jp:"を交換する",en:"exchange"},
-{jp:"を落とす",en:"drop"},
-{jp:"を登る",en:"climb"},
-{jp:"～のにおいがする",en:"smell"},
-{jp:"とデートする",en:"date"},
-{jp:"を紹介する",en:"introduce"},
-{jp:"を再生利用する",en:"recycle"},
-{jp:"を上演する",en:"perform"},
-{jp:"を願う",en:"wish"},
-{jp:"と結婚する",en:"marry"}
-],
-
-/*211～220*/
-[
-{jp:"を表現する",en:"express"},
-{jp:"隠れる",en:"hide"},
-{jp:"を保護する",en:"protect"},
-{jp:"を受け取る",en:"receive"},
-{jp:"を盗む",en:"steal"},
-{jp:"と面接する",en:"interview"},
-{jp:"～に食べ物を与える",en:"feed"},
-{jp:"広がる",en:"spread"},
-{jp:"を配達する",en:"deliver"},
-{jp:"を探す",en:"search"}
-],
-
-/*221～230*/
-[
-{jp:"を噛む",en:"bite"},
-{jp:"を交換する",en:"trade"},
-{jp:"を発表する",en:"announce"},
-{jp:"を生産する",en:"produce"},
-{jp:"を共有する",en:"share"},
-{jp:"を描く",en:"draw"},
-{jp:"木材",en:"wood"},
-{jp:"理由",en:"reason"},
-{jp:"経験",en:"experience"},
-{jp:"請求書",en:"bill"}
-],
-
-/*231～240*/
-[
-{jp:"割引",en:"discount"},
-{jp:"用紙",en:"form"},
-{jp:"所有者",en:"owner"},
-{jp:"片側",en:"side"},
-{jp:"地域社会",en:"community"},
-{jp:"客",en:"guest"},
-{jp:"演技",en:"performance"},
-{jp:"道具",en:"tool"},
-{jp:"1世紀",en:"century"},
-{jp:"デザート",en:"dessert"}
-],
-
-/*241～250*/
-[
-{jp:"詩",en:"poem"},
-{jp:"政府",en:"government"},
-{jp:"小説",en:"novel"},
-{jp:"教授",en:"professor"},
-{jp:"計画",en:"project"},
-{jp:"慈善事業",en:"charity"},
-{jp:"100万",en:"million"},
-{jp:"器具",en:"instrument"},
-{jp:"間違い",en:"mistake"},
-{jp:"地球",en:"earth"}
-],
-
-/*251～260*/
-[
-{jp:"住所",en:"address"},
-{jp:"同僚",en:"co-worker"},
-{jp:"クリーニング店",en:"cleaner"},
-{jp:"試合",en:"match"},
-{jp:"ファン",en:"fan"},
-{jp:"祖父／祖母",en:"grandparent"},
-{jp:"大統領",en:"president"},
-{jp:"壁紙",en:"wallpaper"},
-{jp:"健康なこと",en:"health"},
-{jp:"ヨーロッパ",en:"Europe"}
-],
-
-/*261～270*/
-[
-{jp:"科学技術",en:"technology"},
-{jp:"スーツ",en:"suit"},
-{jp:"覚え書き",en:"note"},
-{jp:"得点",en:"score"},
-{jp:"才能",en:"gift"},
-{jp:"休み",en:"rest"},
-{jp:"眺め",en:"view"},
-{jp:"群集",en:"crowd"},
-{jp:"ジャズ",en:"jazz"},
-{jp:"方向",en:"direction"}
-],
-
-/*271～280*/
-[
-{jp:"話題",en:"topic"},
-{jp:"財布",en:"wallet"},
-{jp:"1片",en:"piece"},
-{jp:"小さな包み",en:"package"},
-{jp:"チームメート",en:"teammate"},
-{jp:"遊び場",en:"playground"},
-{jp:"惑星",en:"planet"},
-{jp:"高級店",en:"salon"},
-{jp:"事故",en:"accident"},
-{jp:"俳優",en:"actor"}
-],
-
-/*281～290*/
-[
-{jp:"伝統的な",en:"traditional"},
-{jp:"ロシアの",en:"Russian"},
-{jp:"人間の",en:"human"},
-{jp:"安い",en:"cheap"},
-{jp:"どちらか一方の",en:"either"},
-{jp:"プロの",en:"professional"},
-{jp:"類似した",en:"similar"},
-{jp:"パートタイムの",en:"part-time"},
-{jp:"全体の",en:"whole"},
-{jp:"凍った",en:"frozen"}
-],
-
-/*291～300*/
-[
-{jp:"中心部の",en:"central"},
-{jp:"大きい",en:"loud"},
-{jp:"奇術の",en:"magic"},
-{jp:"なかなか",en:"pretty"},
-{jp:"確かに",en:"certainly"},
-{jp:"ついに",en:"finally"},
-{jp:"1人で",en:"alone"},
-{jp:"それゆえに",en:"therefore"},
-{jp:"最近",en:"lately"},
-{jp:"もしかすると～かもしれない",en:"might"}
-]
-];
 // =====================
 // テスト処理
 // =====================
@@ -330,6 +181,9 @@ let answered=false;
 let startTime = 0;
 let timerInterval = null;
 let isTimeout = false;
+    let isRetry = false;
+    let userName = "";
+    let currentRange = "";
     
 // ランダム並び替え
 function shuffle(array){
@@ -349,25 +203,43 @@ function shuffle(array){
 
 
 // グループ変更
-function changeGroup(){
+async function changeGroup(){
 
-    currentGroup=
-    Number(document.getElementById("groupSelect").value);
-  // 保存当前选择
+    let text =
+    document.getElementById("groupSelect").value;
     localStorage.setItem(
-        "lastGroup",
-        currentGroup
+        "lastGroup203",
+        text
     );
+currentRange = text;
+    let range=text.split("～");
+
+
+    let startId=Number(range[0]);
+    let endId=Number(range[1]);
+
+
+    await getWords(startId,endId);
+
 
     startTest();
 
 }
 
+async function getWords(startId,endId){
 
+    let res = await fetch(
+        `/api/words?start=${startId}&end=${endId}`
+    );
+
+
+    testWords = await res.json();
+
+}
 
 // テスト開始
-function startTest(){
-
+async function startTest(){
+isRetry = false;
      // 重置状态
     index = 0;
     score = 0;
@@ -375,6 +247,33 @@ function startTest(){
     answered = false;
     isTimeout = false;
 
+userName = localStorage.getItem("userName");
+
+if(!userName){
+
+    while(true){
+
+        userName = prompt("名前を入力してください");
+
+
+        if(userName && userName.trim() !== ""){
+
+            userName = userName.trim();
+
+            localStorage.setItem(
+                "userName",
+                userName
+            );
+
+            break;
+
+        }
+
+        alert("名前を入力してください");
+
+    }
+
+}
 
     // 重新开始计时
     clearInterval(timerInterval);
@@ -384,8 +283,7 @@ function startTest(){
     timerInterval = setInterval(updateTimer,1000);
 
 
-    // 重新生成题目
-    testWords = shuffle([...allGroups[currentGroup]]);
+testWords = shuffle(testWords);
 
 
     // 显示第一题
@@ -534,7 +432,6 @@ if(isTimeout){
 // 次の問題へ
 function moveNext(){
 
-
     index++;
 
 
@@ -584,12 +481,79 @@ function updateTimer(){
  return;
     }
 }
+    
+function saveResult(){
 
+    let wrongEnglish = wrongWords
+        .map(word => word.en)
+        .join(",");
+
+
+    fetch("/api/result",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+
+           name:userName,
+
+            date:new Date().toLocaleString(),
+
+         questionRange:
+    currentRange.replace("～","-"),
+
+            total:testWords.length,
+
+            correct:score,
+
+            rate:Math.round(
+                score / testWords.length * 100
+            ),
+
+            wrongWords:wrongEnglish
+
+        })
+
+    })
+    .then(response=>response.json())
+    .then(data=>{
+
+        console.log("保存成功",data);
+
+    });
+
+}
+
+    // 履歴画面へ
+function goHistory(){
+
+    const name = prompt("パスワードを入力してください");
+
+    if(!name){
+        return;
+    }
+
+    location.href =
+        "history.html?name=" +
+        encodeURIComponent(name) +
+        "&from=index203.html";
+
+}
+    
 // 終了画面
 function finish(){
 
 clearInterval(timerInterval);
+    
+ if(!isRetry){
 
+    saveResult();
+
+}
 
 let totalSeconds =
 Math.floor((Date.now()-startTime)/1000);
@@ -607,8 +571,7 @@ String(min).padStart(2,"0")
 +
 String(sec).padStart(2,"0");
 
-    let startNo = currentGroup * 10 + 1;
-let endNo = currentGroup * 10 + 10;
+   let rangeText = currentRange;
     
     let html=
 
@@ -619,7 +582,7 @@ let endNo = currentGroup * 10 + 10;
 :
 ""
 )+
-          "<h3>問題：" + startNo + "～" + endNo + "</h3>" +
+         "<h3>問題：" + rangeText + "</h3>"+
     "<h2>"+score+
     " / "+
     testWords.length+
@@ -674,7 +637,8 @@ let endNo = currentGroup * 10 + 10;
 
     html+=
     "<h3>🎊 全問正解です！</h3>";
-
+ html +=
+    "<button class='retry-btn' onclick='goHistory()'>履歴参照</button>";
 }
 
 html +=
@@ -692,7 +656,7 @@ document.querySelector(".container").innerHTML = html;
 // 間違えた単語だけ再テスト
 function retryWrong(){
 
-
+isRetry = true;
 
     testWords=
     shuffle([...wrongWords]);
@@ -756,26 +720,21 @@ function goHome(){
 
 
 // 開始
-let savedGroup = localStorage.getItem("lastGroup");
+let savedGroup = localStorage.getItem("lastGroup203");
 
+if(savedGroup === null){
 
-if(savedGroup !== null){
-
-    currentGroup = Number(savedGroup);
-
-    document.getElementById("groupSelect").value = currentGroup;
+    savedGroup = "201～210";
 
 }
+document.getElementById("groupSelect").value = savedGroup;
 
 
-startTest();
+window.onload=function(){
 
+    changeGroup();
 
-setTimeout(function(){
-
-    document.getElementById("answer").focus();
-
-},100);
+};
 </script>
 
 </body>
