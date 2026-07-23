@@ -4,14 +4,16 @@ export async function onRequest(context) {
 
     const group = Number(url.searchParams.get("group"));
 
-    const result = await context.env.DB.prepare(`
-        SELECT jp,en
-        FROM words
-        WHERE group_no = ?
-        ORDER BY question_no
-    `)
-    .bind(group)
-    .all();
+    const result = await env.DB.prepare(
+`
+SELECT *
+FROM words
+WHERE id BETWEEN ? AND ?
+ORDER BY id
+`
+)
+.bind(start,end)
+.all();
 
     return Response.json(result.results);
 
