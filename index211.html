@@ -274,11 +274,6 @@ if(!userName){
     startTime = Date.now();
 
     timerInterval = setInterval(updateTimer,1000);
-
-
-    // 重新生成题目
-    const response = await fetch(
-    "/api/words?group=" + currentGroup
 );
 
 const words = await response.json();
