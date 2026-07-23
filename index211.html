@@ -219,20 +219,14 @@ function changeGroup(){
 
 }
 
-function getWords(startId,endId){
+async function getWords(startId,endId){
 
-    fetch(
+    let res = await fetch(
         `/api/words?start=${startId}&end=${endId}`
-    )
-    .then(res=>res.json())
-    .then(data=>{
+    );
 
-        console.log(data);
 
-        // 开始测试
-        testWords=data;
-
-    });
+    testWords = await res.json();
 
 }
 
