@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>英検準２ 単語テスト101-200</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f5f5f5;
+    margin:0;
+    padding:20px;
+}
+
+.container{
+    max-width:450px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    text-align:center;
+}
+
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+
+h1{
+    font-size:22px;
+}
+
+
+select{
+    padding:8px;
+    font-size:16px;
+    border-radius:8px;
+}
+
+
+.count{
+    color:#666;
+    margin-top:10px;
+}
+
+
+.jp{
+    font-size:30px;
+    margin:30px 0;
+    font-weight:bold;
+}
+
+
+input{
+    width:90%;
+    padding:12px;
+    font-size:22px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    text-align:center;
+}
+
+.button-area{
+    display:flex;
+    justify-content:center;
+    margin-top:15px;
+}
+
+button{
+    flex:0 0 160px;
+    margin:5px;
+    padding:14px;
+    font-size:18px;
+    border:none;
+    border-radius:8px;
+    background:#07c160;
+    color:white;
+}
+
+
+.result{
+    margin-top:20px;
+    font-size:18px;
+}
+
+
+.wrong{
+    text-align:left;
+    margin-top:20px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<div class="header">
+
+<h1>📚 英検準２ 単語2</h1>
+
+
+<select id="groupSelect" onchange="changeGroup()">
+
+<option value="101～110">101～110</option>
+<option value="111～120">111～120</option>
+<option value="121～130">121～130</option>
+<option value="131～140">131～140</option>
+<option value="141～150">141～150</option>
+<option value="151～160">151～160</option>
+<option value="161～170">161～170</option>
+<option value="171～180">171～180</option>
+<option value="181～190">181～190</option>
+<option value="191～200">191～200</option>
+
+</select>
+
+
+</div>
+
+
+<div class="count" id="count"></div>
+<div id="timer" style="color:#666;margin-top:5px;">
+時間：00:00
+</div>
+<div class="jp" id="jp"></div>
+
+
+<input 
+id="answer"
+placeholder="英単語を入力してください"
+onkeydown="if(event.key==='Enter'){check();}">
+
+
+<div class="button-area">
+
+<button onclick="check()">OK</button>
+
+</div>
+
+
+<div class="result" id="result"></div>
+
+
+</div>
+
+
+
+<script>
+
+// =====================
+// テスト処理
+// =====================
+
+
+let testWords=[];
+
+let index=0;
+
+let score=0;
+
+let wrongWords=[];
+
+let currentGroup=0;
+
+let answered=false;
+
+// 计时
+let startTime = 0;
+let timerInterval = null;
+let isTimeout = false;
+    let isRetry = false;
+    let userName = "";
+    let currentRange = "";
+    
+// ランダム並び替え
+function shuffle(array){
+
+    for(let i=array.length-1;i>0;i--){
+
+        let j=Math.floor(Math.random()*(i+1));
+
+        [array[i],array[j]]=[array[j],array[i]];
+
+    }
+
+    return array;
+
+}
+
+
+
+// グループ変更
+async function changeGroup(){
+
+    let text =
+    document.getElementById("groupSelect").value;
+    localStorage.setItem(
+        "lastGroup",
+        text
+    );
+currentRange = text;
+    let range=text.split("～");
+
+
+    let startId=Number(range[0]);
+    let endId=Number(range[1]);
+
+
+    await getWords(startId,endId);
+
+
+    startTest();
+
+}
+
+async function getWords(startId,endId){
+
+    let res = await fetch(
+        `/api/words?start=${startId}&end=${endId}`
+    );
+
+
+    testWords = await res.json();
+
+}
+
+// テスト開始
+async function startTest(){
+isRetry = false;
+     // 重置状态
+    index = 0;
+    score = 0;
+    wrongWords = [];
+    answered = false;
+    isTimeout = false;
+
+userName = localStorage.getItem("userName");
+
+if(!userName){
+
+    while(true){
+
+        userName = prompt("名前を入力してください");
+
+
+        if(userName && userName.trim() !== ""){
+
+            userName = userName.trim();
+
+            localStorage.setItem(
+                "userName",
+                userName
+            );
+
+            break;
+
+        }
+
+        alert("名前を入力してください");
+
+    }
+
+}
+
+    // 重新开始计时
+    clearInterval(timerInterval);
+
+    startTime = Date.now();
+
+    timerInterval = setInterval(updateTimer,1000);
+
+
+testWords = shuffle(testWords);
+
+
+    // 显示第一题
+    show();
+
+}
+
+
+
+// 問題表示
+function show(){
+
+
+    answered=false;
+
+
+    document.getElementById("count").innerHTML=
+
+    "第 "+(index+1)+" 問 / 全 "+testWords.length+" 問";
+
+
+
+    document.getElementById("jp").innerHTML=
+
+    testWords[index].jp;
+
+  let answerBox = document.getElementById("answer");
+
+
+    answerBox.disabled=false;
+
+    answerBox.value="";
+
+
+    document.getElementById("result").innerHTML="";
+
+
+    // 自动进入输入框
+    answerBox.focus();
+
+}
+
+
+
+
+// 間違い追加
+function addWrong(){
+
+
+    let exists =
+    wrongWords.some(function(word){
+
+        return word.en==testWords[index].en;
+
+    });
+
+
+
+    if(!exists){
+
+        wrongWords.push(testWords[index]);
+
+    }
+
+
+}
+
+
+
+
+// OKボタン
+function check(){
+
+
+    let answerBox=
+    document.getElementById("answer");
+
+
+
+    if(answered){
+
+        return;
+
+    }
+
+
+
+    let input=
+    answerBox.value
+    .trim()
+    .toLowerCase();
+
+
+
+    answered=true;
+
+    answerBox.disabled=true;
+
+let delay;
+
+    if(input==testWords[index].en){
+
+
+        score++;
+
+
+        document.getElementById("result").innerHTML=
+
+        "⭕ 正解です！";
+ delay = 1000;
+
+    }else{
+
+
+        addWrong();
+
+
+        document.getElementById("result").innerHTML=
+
+        "❌ 不正解　正解："+testWords[index].en;
+
+ delay = 2000;
+    }
+
+
+
+  setTimeout(function(){
+if(isTimeout){
+        return;
+    }
+    moveNext();
+
+   if(document.getElementById("answer")){
+        document.getElementById("answer").focus();
+    }
+
+},delay);
+}
+
+
+
+
+
+
+
+// 次の問題へ
+function moveNext(){
+
+    index++;
+
+
+
+    if(index>=testWords.length){
+
+
+        finish();
+
+        return;
+
+    }
+
+
+
+    show();
+
+
+}
+
+function updateTimer(){
+
+    let seconds = Math.floor(
+        (Date.now() - startTime) / 1000
+    );
+
+
+    let min = Math.floor(seconds / 60);
+
+    let sec = seconds % 60;
+
+
+    document.getElementById("timer").innerHTML =
+    "時間：" +
+    String(min).padStart(2,"0") +
+    ":" +
+    String(sec).padStart(2,"0");
+    
+  // 3分超過で終了
+    if(seconds >= 180){
+
+        clearInterval(timerInterval);
+
+        isTimeout = true;
+
+        finish();
+ return;
+    }
+}
+    
+function saveResult(){
+
+    let wrongEnglish = wrongWords
+        .map(word => word.en)
+        .join(",");
+
+
+    fetch("/api/result",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+
+           name:userName,
+
+            date:new Date().toLocaleString(),
+
+         questionRange:
+    currentRange.replace("～","-"),
+
+            total:testWords.length,
+
+            correct:score,
+
+            rate:Math.round(
+                score / testWords.length * 100
+            ),
+
+            wrongWords:wrongEnglish
+
+        })
+
+    })
+    .then(response=>response.json())
+    .then(data=>{
+
+        console.log("保存成功",data);
+
+    });
+
+}
+
+    // 履歴画面へ
+function goHistory(){
+
+    const name = prompt("パスワードを入力してください");
+
+    if(!name){
+        return;
+    }
+
+    location.href =
+        "history.html?name=" +
+        encodeURIComponent(name) +
+        "&from=index212.html";
+
+}
+    
+// 終了画面
+function finish(){
+
+clearInterval(timerInterval);
+    
+ if(!isRetry){
+
+    saveResult();
+
+}
+
+let totalSeconds =
+Math.floor((Date.now()-startTime)/1000);
+
+
+let min=Math.floor(totalSeconds/60);
+
+let sec=totalSeconds%60;
+
+
+let timeText =
+String(min).padStart(2,"0")
++
+":"
++
+String(sec).padStart(2,"0");
+
+   let rangeText = currentRange;
+    
+    let html=
+
+    "<h1>🎉 テスト終了</h1>"+
+(isTimeout
+?
+"<h2>⏰ 制限時間を超えました</h2>"
+:
+""
+)+
+         "<h3>問題：" + rangeText + "</h3>"+
+    "<h2>"+score+
+    " / "+
+    testWords.length+
+    " 問 正解</h2>"+
+
+"<h3>⏱ 時間："+timeText+"</h3>";
+
+
+
+
+    if(wrongWords.length>0){
+
+
+
+        html+=
+
+        "<div class='wrong'>"+
+
+        "<h3>❌ 間違えた単語</h3>";
+
+
+
+        wrongWords.forEach(function(word){
+
+
+            html+=
+
+            "<p>"+
+            word.jp+
+            " → "+
+            word.en+
+            "</p>";
+
+
+        });
+
+
+
+        html+="</div>";
+
+
+
+        html+=
+
+        "<button class='retry-btn' onclick='retryWrong()'>"+
+        "もう一度間違えた単語だけテストする"+
+        "</button>";
+
+
+
+   }else if(!isTimeout){
+
+    html+=
+    "<h3>🎊 全問正解です！</h3>";
+ html +=
+    "<button class='retry-btn' onclick='goHistory()'>履歴参照</button>";
+}
+
+html +=
+"<br><br>" +
+"<button class='retry-btn' onclick='goHome()'>ホームへ戻る</button>";
+
+document.querySelector(".container").innerHTML = html;
+
+
+}
+
+
+
+
+// 間違えた単語だけ再テスト
+function retryWrong(){
+
+isRetry = true;
+
+    testWords=
+    shuffle([...wrongWords]);
+
+
+
+    index=0;
+
+    score=0;
+
+    wrongWords=[];
+ answered = false;
+
+    isTimeout = false;
+
+    document.querySelector(".container").innerHTML=
+
+
+    "<div class='header'>"+
+    "<h1>📚 間違えた単語テスト</h1>"+
+    "</div>"+
+
+
+    "<div class='count' id='count'></div>"+
+
+
+    "<div class='jp' id='jp'></div>"+
+
+
+    "<input id='answer' "+
+    "placeholder='英単語を入力してください' "+
+    "onkeydown=\"if(event.key==='Enter'){check();}\">"+
+
+
+
+    "<div class='button-area'>"+
+
+    "<button onclick='check()'>OK</button>"+
+
+
+    "</div>"+
+
+
+
+    "<div class='result' id='result'></div>";
+
+
+answered = false;
+isTimeout = false;
+    show();
+
+
+}
+
+// ホームへ戻る
+function goHome(){
+
+    location.reload();
+
+}
+
+
+// 開始
+let savedGroup = localStorage.getItem("lastGroup");
+
+
+if(savedGroup !== null){
+
+    document.getElementById("groupSelect").value = savedGroup;
+
+}
+
+
+window.onload=function(){
+
+    changeGroup();
+
+};
+</script>
+
+</body>
+
+</html>
