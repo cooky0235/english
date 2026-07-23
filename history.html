@@ -89,7 +89,7 @@ button:hover{
 <div class="container">
 
 
-<h1>📚 学習履歴</h1>
+<h1 id="title">📚 学習履歴</h1>
 
 
 <table>
@@ -139,6 +139,8 @@ const params = new URLSearchParams(location.search);
 
 const name = params.get("name");
     const from = params.get("from");
+    document.getElementById("title").textContent =
+    "📚 " + name + " の学習履歴";
 fetch("/api/result?name=" + encodeURIComponent(name))
 
 
