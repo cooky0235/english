@@ -504,7 +504,7 @@ function saveResult(){
             date:new Date().toLocaleString(),
 
          questionRange:
-    currentRange,
+    currentRange.replace("～","-"),
 
             total:testWords.length,
 
