@@ -110,21 +110,21 @@ button{
 
 <div class="header">
 
-<h1>📚 英検準２ 単語4</h1>
+<h1>📚 英検準２ 単語3</h1>
 
 
 <select id="groupSelect" onchange="changeGroup()">
 
-<option value="0">301～310</option>
-<option value="1">311～320</option>
-<option value="2">321～330</option>
-<option value="3">331～340</option>
-<option value="4">341～350</option>
-<option value="5">351～360</option>
-<option value="6">361～370</option>
-<option value="7">371～380</option>
-<option value="8">381～390</option>
-<option value="9">391～400</option>
+<option value="0">201～210</option>
+<option value="1">211～220</option>
+<option value="2">221～230</option>
+<option value="3">231～240</option>
+<option value="4">241～250</option>
+<option value="5">251～260</option>
+<option value="6">261～270</option>
+<option value="7">271～280</option>
+<option value="8">281～290</option>
+<option value="9">291～300</option>
 
 </select>
 
@@ -169,144 +169,144 @@ onkeydown="if(event.key==='Enter'){check();}">
 
 const allGroups = [
 
-/*301～310*/
+/*201～210*/
 [
-{jp:"を我慢する",en:"stand"},
-{jp:"に到着する",en:"reach"},
-{jp:"を約束する",en:"promise"},
-{jp:"を撮影する",en:"film"},
-{jp:"～にサイズがぴったり合う",en:"fit"},
-{jp:"を祝う",en:"celebrate"},
-{jp:"ストレッチをする",en:"stretch"},
-{jp:"を覆う",en:"cover"},
-{jp:"を開発する",en:"develop"},
-{jp:"を解決する",en:"solve"}
+{jp:"を交換する",en:"exchange"},
+{jp:"を落とす",en:"drop"},
+{jp:"を登る",en:"climb"},
+{jp:"～のにおいがする",en:"smell"},
+{jp:"とデートする",en:"date"},
+{jp:"を紹介する",en:"introduce"},
+{jp:"を再生利用する",en:"recycle"},
+{jp:"を上演する",en:"perform"},
+{jp:"を願う",en:"wish"},
+{jp:"と結婚する",en:"marry"}
 ],
 
-/*311～320*/
+/*211～220*/
 [
-{jp:"を発見する",en:"discover"},
-{jp:"を続ける",en:"continue"},
-{jp:"に直面する",en:"face"},
-{jp:"を形作る",en:"shape"},
-{jp:"を印刷する",en:"print"},
-{jp:"貸す",en:"lend"},
-{jp:"を実現する",en:"realize"},
-{jp:"～かなと思う",en:"wonder"},
-{jp:"死ぬ",en:"die"},
-{jp:"を引く",en:"pull"}
+{jp:"を表現する",en:"express"},
+{jp:"隠れる",en:"hide"},
+{jp:"を保護する",en:"protect"},
+{jp:"を受け取る",en:"receive"},
+{jp:"を盗む",en:"steal"},
+{jp:"と面接する",en:"interview"},
+{jp:"～に食べ物を与える",en:"feed"},
+{jp:"広がる",en:"spread"},
+{jp:"を配達する",en:"deliver"},
+{jp:"を探す",en:"search"}
 ],
 
-/*321～330*/
+/*221～230*/
 [
-{jp:"を押す",en:"push"},
-{jp:"を振る",en:"shake"},
-{jp:"賛成する",en:"agree"},
-{jp:"を意味する",en:"mean"},
-{jp:"を気にする",en:"mind"},
-{jp:"を改良する",en:"improve"},
-{jp:"を含む",en:"include"},
-{jp:"に入る",en:"enter"},
-{jp:"意思を通じ合う",en:"communicate"},
-{jp:"観光客",en:"tourist"}
+{jp:"を噛む",en:"bite"},
+{jp:"を交換する",en:"trade"},
+{jp:"を発表する",en:"announce"},
+{jp:"を生産する",en:"produce"},
+{jp:"を共有する",en:"share"},
+{jp:"を描く",en:"draw"},
+{jp:"木材",en:"wood"},
+{jp:"理由",en:"reason"},
+{jp:"経験",en:"experience"},
+{jp:"請求書",en:"bill"}
 ],
 
-/*331～340*/
+/*231～240*/
 [
-{jp:"中心",en:"center"},
-{jp:"注目",en:"attention"},
-{jp:"カップル",en:"couple"},
-{jp:"免許証",en:"license"},
-{jp:"子ども",en:"kid"},
-{jp:"砂漠",en:"desert"},
-{jp:"発明品",en:"invention"},
-{jp:"化学",en:"chemistry"},
-{jp:"近所",en:"neighborhood"},
-{jp:"警官",en:"officer"}
+{jp:"割引",en:"discount"},
+{jp:"用紙",en:"form"},
+{jp:"所有者",en:"owner"},
+{jp:"片側",en:"side"},
+{jp:"地域社会",en:"community"},
+{jp:"客",en:"guest"},
+{jp:"演技",en:"performance"},
+{jp:"道具",en:"tool"},
+{jp:"1世紀",en:"century"},
+{jp:"デザート",en:"dessert"}
 ],
 
-/*341～350*/
+/*241～250*/
 [
-{jp:"瞬間",en:"moment"},
-{jp:"岩",en:"rock"},
-{jp:"ショッピングカート",en:"cart"},
-{jp:"芝生",en:"grass"},
-{jp:"交通量",en:"traffic"},
-{jp:"スタッフ",en:"staff"},
-{jp:"ヘビ",en:"snake"},
-{jp:"食糧雑貨",en:"grocery"},
-{jp:"料金",en:"fee"},
-{jp:"衣服",en:"clothing"}
+{jp:"詩",en:"poem"},
+{jp:"政府",en:"government"},
+{jp:"小説",en:"novel"},
+{jp:"教授",en:"professor"},
+{jp:"計画",en:"project"},
+{jp:"慈善事業",en:"charity"},
+{jp:"100万",en:"million"},
+{jp:"器具",en:"instrument"},
+{jp:"間違い",en:"mistake"},
+{jp:"地球",en:"earth"}
 ],
 
-/*351～360*/
+/*251～260*/
 [
-{jp:"訓練",en:"training"},
-{jp:"ヨガ",en:"yoga"},
-{jp:"トラック",en:"truck"},
-{jp:"森林地帯",en:"forest"},
-{jp:"味",en:"flavor"},
-{jp:"重さ",en:"weight"},
-{jp:"地下鉄",en:"subway"},
-{jp:"発見",en:"discovery"},
-{jp:"オーブン",en:"oven"},
-{jp:"身分証明書",en:"ID"}
+{jp:"住所",en:"address"},
+{jp:"同僚",en:"co-worker"},
+{jp:"クリーニング店",en:"cleaner"},
+{jp:"試合",en:"match"},
+{jp:"ファン",en:"fan"},
+{jp:"祖父／祖母",en:"grandparent"},
+{jp:"大統領",en:"president"},
+{jp:"壁紙",en:"wallpaper"},
+{jp:"健康なこと",en:"health"},
+{jp:"ヨーロッパ",en:"Europe"}
 ],
 
-/*361～370*/
+/*261～270*/
 [
-{jp:"初心者",en:"beginner"},
-{jp:"せき",en:"cough"},
-{jp:"花火",en:"firework"},
-{jp:"旗",en:"flag"},
-{jp:"家事",en:"housework"},
-{jp:"アリ",en:"ant"},
-{jp:"地面",en:"ground"},
-{jp:"予定表",en:"schedule"},
-{jp:"騒音",en:"noise"},
-{jp:"嵐",en:"storm"}
+{jp:"科学技術",en:"technology"},
+{jp:"スーツ",en:"suit"},
+{jp:"覚え書き",en:"note"},
+{jp:"得点",en:"score"},
+{jp:"才能",en:"gift"},
+{jp:"休み",en:"rest"},
+{jp:"眺め",en:"view"},
+{jp:"群集",en:"crowd"},
+{jp:"ジャズ",en:"jazz"},
+{jp:"方向",en:"direction"}
 ],
 
-/*371～380*/
+/*271～280*/
 [
-{jp:"棚",en:"shelf"},
-{jp:"エレベーター",en:"elevator"},
-{jp:"太平洋沿岸の",en:"Pacific"},
-{jp:"注意深い",en:"careful"},
-{jp:"公共の",en:"public"},
-{jp:"英国の",en:"British"},
-{jp:"友好的な",en:"friendly"},
-{jp:"生まれた土地の",en:"native"},
-{jp:"優れた",en:"excellent"},
-{jp:"近くの",en:"nearby"}
+{jp:"話題",en:"topic"},
+{jp:"財布",en:"wallet"},
+{jp:"1片",en:"piece"},
+{jp:"小さな包み",en:"package"},
+{jp:"チームメート",en:"teammate"},
+{jp:"遊び場",en:"playground"},
+{jp:"惑星",en:"planet"},
+{jp:"高級店",en:"salon"},
+{jp:"事故",en:"accident"},
+{jp:"俳優",en:"actor"}
 ],
 
-/*381～390*/
+/*281～290*/
 [
-{jp:"巨大な",en:"huge"},
-{jp:"主な",en:"main"},
-{jp:"新鮮な",en:"fresh"},
-{jp:"いつもの",en:"usual"},
-{jp:"退屈な",en:"boring"},
-{jp:"色彩豊かな",en:"colorful"},
-{jp:"恐ろしい",en:"scary"},
-{jp:"ピリッとした",en:"spicy"},
-{jp:"緊張している",en:"nervous"},
-{jp:"便利な",en:"convenient"}
+{jp:"伝統的な",en:"traditional"},
+{jp:"ロシアの",en:"Russian"},
+{jp:"人間の",en:"human"},
+{jp:"安い",en:"cheap"},
+{jp:"どちらか一方の",en:"either"},
+{jp:"プロの",en:"professional"},
+{jp:"類似した",en:"similar"},
+{jp:"パートタイムの",en:"part-time"},
+{jp:"全体の",en:"whole"},
+{jp:"凍った",en:"frozen"}
 ],
 
-/*391～400*/
+/*291～300*/
 [
-{jp:"幅が広い",en:"wide"},
-{jp:"初等教育の",en:"elementary"},
-{jp:"1度",en:"once"},
-{jp:"これ以上",en:"anymore"},
-{jp:"ほとんど",en:"almost"},
-{jp:"注意して",en:"carefully"},
-{jp:"運よく",en:"luckily"},
-{jp:"屋外で",en:"outdoors"},
-{jp:"はっきりと",en:"clearly"},
-{jp:"～に反対して",en:"against"}
+{jp:"中心部の",en:"central"},
+{jp:"大きい",en:"loud"},
+{jp:"奇術の",en:"magic"},
+{jp:"なかなか",en:"pretty"},
+{jp:"確かに",en:"certainly"},
+{jp:"ついに",en:"finally"},
+{jp:"1人で",en:"alone"},
+{jp:"それゆえに",en:"therefore"},
+{jp:"最近",en:"lately"},
+{jp:"もしかすると～かもしれない",en:"might"}
 ]
 ];
 // =====================
