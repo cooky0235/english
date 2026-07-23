@@ -205,7 +205,10 @@ async function changeGroup(){
 
     let text =
     document.getElementById("groupSelect").value;
-
+    localStorage.setItem(
+        "lastGroup",
+        text
+    );
 
     let range=text.split("～");
 
@@ -725,9 +728,7 @@ let savedGroup = localStorage.getItem("lastGroup");
 
 if(savedGroup !== null){
 
-    currentGroup = Number(savedGroup);
-
-    document.getElementById("groupSelect").value = currentGroup;
+    document.getElementById("groupSelect").value = savedGroup;
 
 }
 
