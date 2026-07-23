@@ -276,11 +276,9 @@ if(!userName){
     startTime = Date.now();
 
     timerInterval = setInterval(updateTimer,1000);
-);
 
-const words = await response.json();
 
-testWords = shuffle(words);
+testWords = shuffle(testWords);
 
 
     // 显示第一题
@@ -734,14 +732,11 @@ if(savedGroup !== null){
 }
 
 
-startTest();
+window.onload=function(){
 
+    changeGroup();
 
-setTimeout(function(){
-
-    document.getElementById("answer").focus();
-
-},100);
+};
 </script>
 
 </body>
