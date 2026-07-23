@@ -368,7 +368,7 @@ function changeGroup(){
 
 
 // テスト開始
-function startTest(){
+async function startTest(){
 isRetry = false;
      // 重置状态
     index = 0;
@@ -414,7 +414,13 @@ if(!userName){
 
 
     // 重新生成题目
-    testWords = shuffle([...allGroups[currentGroup]]);
+    const response = await fetch(
+    "/api/words?group=" + currentGroup
+);
+
+const words = await response.json();
+
+testWords = shuffle(words);
 
 
     // 显示第一题
