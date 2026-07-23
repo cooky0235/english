@@ -114,16 +114,16 @@ button{
 
 <select id="groupSelect" onchange="changeGroup()">
 
-<option value="0">101～110</option>
-<option value="1">111～120</option>
-<option value="2">121～130</option>
-<option value="3">131～140</option>
-<option value="4">141～150</option>
-<option value="5">151～160</option>
-<option value="6">161～170</option>
-<option value="7">171～180</option>
-<option value="8">181～190</option>
-<option value="9">191～200</option>
+<option value="101～110">101～110</option>
+<option value="111～120">111～120</option>
+<option value="121～130">121～130</option>
+<option value="131～140">131～140</option>
+<option value="141～150">141～150</option>
+<option value="151～160">151～160</option>
+<option value="161～170">161～170</option>
+<option value="171～180">171～180</option>
+<option value="181～190">181～190</option>
+<option value="191～200">191～200</option>
 
 </select>
 
@@ -160,156 +160,6 @@ onkeydown="if(event.key==='Enter'){check();}">
 
 <script>
 
-
-// =====================
-// 英単語データ
-// =====================
-
-
-const allGroups = [
-
-/* 101～110 */
-[
-{jp:"～の味がする",en:"taste"},
-{jp:"を修理する",en:"fix"},
-{jp:"を開催する",en:"hold"},
-{jp:"を集める",en:"collect"},
-{jp:"にペンキを塗る",en:"paint"},
-{jp:"の写しをとる",en:"copy"},
-{jp:"を推測する",en:"guess"},
-{jp:"を創造する",en:"create"},
-{jp:"～が…するのを許す",en:"allow"},
-{jp:"帰る",en:"return"}
-],
-
-/*111～120*/
-[
-{jp:"を提案する",en:"suggest"},
-{jp:"くつろぐ",en:"relax"},
-{jp:"を加える",en:"add"},
-{jp:"を予約する",en:"reserve"},
-{jp:"をデザインする",en:"design"},
-{jp:"についていく",en:"follow"},
-{jp:"の心をとらえる",en:"attract"},
-{jp:"に合格する",en:"pass"},
-{jp:"～がいなくてさびしく思う",en:"miss"},
-{jp:"を推薦する",en:"recommend"}
-],
-
-/*121～130*/
-[
-{jp:"を出す",en:"serve"},
-{jp:"を借りる",en:"rent"},
-{jp:"目を覚ます",en:"wake"},
-{jp:"を焼く",en:"bake"},
-{jp:"を準備する",en:"prepare"},
-{jp:"に損傷を与える",en:"damage"},
-{jp:"を我慢する",en:"bear"},
-{jp:"～のようだ",en:"seem"},
-{jp:"を説明する",en:"explain"},
-{jp:"を引き起こす",en:"cause"}
-],
-
-/*131～140*/
-[
-{jp:"を満たす",en:"fill"},
-{jp:"を殺す",en:"kill"},
-{jp:"服を着る",en:"dress"},
-{jp:"を投げる",en:"throw"},
-{jp:"に気づく",en:"notice"},
-{jp:"結果",en:"result"},
-{jp:"最前部",en:"front"},
-{jp:"調理法",en:"recipe"},
-{jp:"地域",en:"area"},
-{jp:"訪問者",en:"visitor"}
-],
-
-/*141～150*/
-[
-{jp:"衣服",en:"clothes"},
-{jp:"プラスチック",en:"plastic"},
-{jp:"機会",en:"chance"},
-{jp:"販売",en:"sale"},
-{jp:"技術",en:"skill"},
-{jp:"発表",en:"presentation"},
-{jp:"定期航空便",en:"flight"},
-{jp:"車輪",en:"wheel"},
-{jp:"製品",en:"product"},
-{jp:"食事",en:"meal"}
-],
-
-/*151～160*/
-[
-{jp:"種",en:"seed"},
-{jp:"陸地",en:"land"},
-{jp:"薬",en:"medicine"},
-{jp:"予約",en:"reservation"},
-{jp:"宇宙",en:"space"},
-{jp:"アパート",en:"apartment"},
-{jp:"虫",en:"insect"},
-{jp:"ショッピングモール",en:"mall"},
-{jp:"スマートフォン",en:"smartphone"},
-{jp:"成績",en:"grade"}
-],
-
-/*161～170*/
-[
-{jp:"警察",en:"police"},
-{jp:"賞",en:"prize"},
-{jp:"市場",en:"market"},
-{jp:"見本市",en:"fair"},
-{jp:"欄",en:"section"},
-{jp:"価格",en:"price"},
-{jp:"事実",en:"fact"},
-{jp:"部",en:"department"},
-{jp:"規則",en:"rule"},
-{jp:"自然",en:"nature"}
-],
-
-/*171～180*/
-[
-{jp:"島",en:"island"},
-{jp:"商品",en:"goods"},
-{jp:"消防隊員",en:"firefighter"},
-{jp:"人",en:"person"},
-{jp:"夫",en:"husband"},
-{jp:"品目",en:"item"},
-{jp:"隣人",en:"neighbor"},
-{jp:"オーケストラ",en:"orchestra"},
-{jp:"門",en:"gate"},
-{jp:"健康に良い",en:"healthy"}
-],
-
-/*181～190*/
-[
-{jp:"本当の",en:"true"},
-{jp:"～ではないかと心配して",en:"afraid"},
-{jp:"危険な",en:"dangerous"},
-{jp:"野生の",en:"wild"},
-{jp:"安全な",en:"safe"},
-{jp:"過去の",en:"past"},
-{jp:"入手できる",en:"available"},
-{jp:"成功した",en:"successful"},
-{jp:"完全な",en:"perfect"},
-{jp:"より少なく",en:"less"}
-],
-
-/*191～200*/
-[
-{jp:"簡単に",en:"easily"},
-{jp:"その他に",en:"else"},
-{jp:"海外で",en:"abroad"},
-{jp:"最近",en:"recently"},
-{jp:"今日（こんにち）では",en:"nowadays"},
-{jp:"どこかに",en:"somewhere"},
-{jp:"先へ",en:"forward"},
-{jp:"～だけれども",en:"although"},
-{jp:"～なしで",en:"without"},
-{jp:"～を通って",en:"through"}
-]
-
-
-];
 // =====================
 // テスト処理
 // =====================
@@ -333,6 +183,8 @@ let timerInterval = null;
 let isTimeout = false;
     let isRetry = false;
     let userName = "";
+    let currentRange = "";
+    
 // ランダム並び替え
 function shuffle(array){
 
@@ -351,24 +203,42 @@ function shuffle(array){
 
 
 // グループ変更
-function changeGroup(){
+async function changeGroup(){
 
-    currentGroup=
-    Number(document.getElementById("groupSelect").value);
-  // 保存当前选择
+    let text =
+    document.getElementById("groupSelect").value;
     localStorage.setItem(
-        "lastGroup",
-        currentGroup
+        "lastGroup202",
+        text
     );
+currentRange = text;
+    let range=text.split("～");
+
+
+    let startId=Number(range[0]);
+    let endId=Number(range[1]);
+
+
+    await getWords(startId,endId);
+
 
     startTest();
 
 }
 
+async function getWords(startId,endId){
 
+    let res = await fetch(
+        `/api/words?start=${startId}&end=${endId}`
+    );
+
+
+    testWords = await res.json();
+
+}
 
 // テスト開始
-function startTest(){
+async function startTest(){
 isRetry = false;
      // 重置状态
     index = 0;
@@ -413,8 +283,7 @@ if(!userName){
     timerInterval = setInterval(updateTimer,1000);
 
 
-    // 重新生成题目
-    testWords = shuffle([...allGroups[currentGroup]]);
+testWords = shuffle(testWords);
 
 
     // 显示第一题
@@ -634,12 +503,8 @@ function saveResult(){
 
             date:new Date().toLocaleString(),
 
-            questionRange:
-                (currentGroup * 10 + 101)
-                +
-                "-"
-                +
-                (currentGroup * 10 + 110),
+         questionRange:
+    currentRange.replace("～","-"),
 
             total:testWords.length,
 
@@ -706,8 +571,7 @@ String(min).padStart(2,"0")
 +
 String(sec).padStart(2,"0");
 
-    let startNo = currentGroup * 10 + 101;
-let endNo = currentGroup * 10 + 110;
+   let rangeText = currentRange;
     
     let html=
 
@@ -718,7 +582,7 @@ let endNo = currentGroup * 10 + 110;
 :
 ""
 )+
-          "<h3>問題：" + startNo + "～" + endNo + "</h3>" +
+         "<h3>問題：" + rangeText + "</h3>"+
     "<h2>"+score+
     " / "+
     testWords.length+
@@ -856,26 +720,21 @@ function goHome(){
 
 
 // 開始
-let savedGroup = localStorage.getItem("lastGroup");
+let savedGroup = localStorage.getItem("lastGroup202");
 
+if(savedGroup === null){
 
-if(savedGroup !== null){
-
-    currentGroup = Number(savedGroup);
-
-    document.getElementById("groupSelect").value = currentGroup;
+    savedGroup = "101～110";
 
 }
+document.getElementById("groupSelect").value = savedGroup;
 
 
-startTest();
+window.onload=function(){
 
+    changeGroup();
 
-setTimeout(function(){
-
-    document.getElementById("answer").focus();
-
-},100);
+};
 </script>
 
 </body>
