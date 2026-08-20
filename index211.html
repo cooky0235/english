@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>英検準２ 単語テスト1-100</title>
+<title>英検準２ 単語テスト1001-1100</title>
 
 <style>
 
@@ -109,21 +109,21 @@ button{
 
 <div class="header">
 
-<h1>📚 英検準２ 単語1</h1>
+<h1>📚 英検準２ 単語11</h1>
 
 
 <select id="groupSelect" onchange="changeGroup()">
 
-<option value="1～10">1～10</option>
-<option value="11～20">11～20</option>
-<option value="21～30">21～30</option>
-<option value="31～40">31～40</option>
-<option value="41～50">41～50</option>
-<option value="51～60">51～60</option>
-<option value="61～70">61～70</option>
-<option value="71～80">71～80</option>
-<option value="81～90">81～90</option>
-<option value="91～100">91～100</option>
+<option value="1001～1010">1001～1010</option>
+<option value="1011～1020">1011～1020</option>
+<option value="1021～1030">1021～1030</option>
+<option value="1031～1040">1031～1040</option>
+<option value="1041～1050">1041～1050</option>
+<option value="1051～1060">1051～1060</option>
+<option value="1061～1070">1061～1070</option>
+<option value="1071～1080">1071～1080</option>
+<option value="1081～1090">1081～1090</option>
+<option value="1091～1100">1091～1100</option>
 
 </select>
 
@@ -208,7 +208,7 @@ async function changeGroup(){
     let text =
     document.getElementById("groupSelect").value;
     localStorage.setItem(
-        "lastGroup",
+        "lastGroup211",
         text
     );
 currentRange = text;
@@ -384,7 +384,10 @@ function check(){
 
 let delay;
 
-    if(input==testWords[index].en){
+    if(
+    input ==
+    testWords[index].en.toLowerCase()
+){
 
 
         score++;
@@ -720,14 +723,14 @@ function goHome(){
 
 
 // 開始
-let savedGroup = localStorage.getItem("lastGroup");
+let savedGroup = localStorage.getItem("lastGroup211");
 
+if(savedGroup === null){
 
-if(savedGroup !== null){
-
-    document.getElementById("groupSelect").value = savedGroup;
+    savedGroup = "1001～1010";
 
 }
+document.getElementById("groupSelect").value = savedGroup;
 
 
 window.onload=function(){
